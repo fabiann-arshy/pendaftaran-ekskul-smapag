@@ -1,0 +1,884 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard Admin Ekskul SMAPAG</title>
+
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="https://services.smaplusalghifari.sch.id/public/file/preview/Vy7WzqZpBa"
+    />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Plus Jakarta Sans", sans-serif;
+      }
+    </style>
+  </head>
+  <body
+    id="mainBody"
+    class="bg-slate-100 text-slate-800 min-h-screen flex items-center justify-center p-4"
+  >
+    <div
+      id="loginPage"
+      class="bg-white p-8 rounded-2xl shadow-sm border border-blue-100 w-full max-w-sm border-t-8 border-t-blue-600"
+    >
+      <div class="text-center mb-6">
+        <h2 class="text-2xl font-bold text-blue-950">Login Admin</h2>
+        <p class="text-sm text-slate-500">Panel CRUD Pendaftaran Ekskul</p>
+      </div>
+
+      <div
+        id="alertBox"
+        class="hidden mb-4 p-3 rounded-xl text-xs font-semibold text-center leading-relaxed"
+      ></div>
+
+      <form id="loginForm" class="space-y-4" onsubmit="return false;">
+        <div>
+          <label class="block text-sm font-semibold text-slate-700 mb-1"
+            >Username</label
+          >
+          <input
+            type="text"
+            id="user"
+            class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-blue-500 outline-none text-sm transition"
+          />
+        </div>
+        <div>
+          <label class="block text-sm font-semibold text-slate-700 mb-1"
+            >Password</label
+          >
+          <input
+            type="password"
+            id="pass"
+            class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-blue-500 outline-none text-sm transition"
+          />
+        </div>
+        <button
+          id="btnLogin"
+          type="submit"
+          class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl transition shadow-sm"
+        >
+          Login
+        </button>
+      </form>
+    </div>
+
+    <div id="adminPage" class="hidden w-full max-w-6xl mx-auto space-y-6">
+      <div
+        class="bg-white p-6 rounded-2xl shadow-sm border border-blue-100 border-t-8 border-t-blue-600 space-y-4"
+      >
+        <div class="flex justify-between items-center">
+          <div>
+            <h1 class="text-xl font-bold text-blue-950">
+              CRUD Data Pendaftar Ekskul
+            </h1>
+            <p class="text-sm text-slate-500">SMAS Plus Al Ghifari Bandung</p>
+          </div>
+          <button
+            id="btnLogout"
+            class="bg-red-50 text-red-600 px-4 py-2 rounded-xl font-semibold hover:bg-red-100 transition text-sm"
+          >
+            Logout
+          </button>
+        </div>
+
+        <div class="flex gap-2 border-b border-slate-100 pb-2">
+          <button
+            id="tabDashboard"
+            onclick="switchTab('dashboard')"
+            class="px-4 py-2 rounded-xl font-semibold text-xs bg-blue-600 text-white transition"
+          >
+            Dashboard Pendaftaran
+          </button>
+          <button
+            id="tabMurid"
+            onclick="switchTab('murid')"
+            class="px-4 py-2 rounded-xl font-semibold text-xs bg-slate-100 text-slate-600 hover:bg-slate-200 transition"
+          >
+            Kelola Data Murid
+          </button>
+        </div>
+      </div>
+
+      <div
+        id="pageDashboard"
+        class="bg-white rounded-2xl p-6 shadow-sm border border-blue-100 space-y-4"
+      >
+        <div class="flex justify-between items-center">
+          <div>
+            <h2 class="text-lg font-bold text-slate-800">
+              Data Pendaftar Ekskul
+            </h2>
+            <p class="text-xs text-slate-400">
+              Daftar Siswa Yang Sudah Mengisi Formulir
+            </p>
+          </div>
+          <button
+            onclick="exportCSV()"
+            class="bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded-xl font-medium text-xs transition"
+          >
+            Download CSV
+          </button>
+        </div>
+
+        <div class="overflow-x-auto border border-slate-100 rounded-xl">
+          <table class="w-full text-left text-sm">
+            <thead class="bg-slate-50 text-slate-600">
+              <tr>
+                <th class="p-4 border-b">No</th>
+                <th class="p-4 border-b">NISN</th>
+                <th class="p-4 border-b">Nama Lengkap</th>
+                <th class="p-4 border-b">L/P</th>
+                <th class="p-4 border-b">Kelas</th>
+                <th class="p-4 border-b">Ekskul</th>
+                <th class="p-4 border-b">WA</th>
+                <th class="p-4 border-b text-center">Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="tableAdmin" class="divide-y divide-slate-100"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div
+        id="pageMurid"
+        class="hidden bg-white rounded-2xl p-6 shadow-sm border border-blue-100 space-y-6"
+      >
+        <div class="flex justify-between items-center">
+          <div>
+            <h2 class="text-lg font-bold text-slate-800">
+              Master Data Murid Kelas X
+            </h2>
+            <p class="text-xs text-slate-400">Kelola database siswa</p>
+          </div>
+          <button
+            onclick="openModalMurid()"
+            class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-xl font-medium text-xs transition"
+          >
+            + Tambah Murid
+          </button>
+        </div>
+
+        <!-- filter dan autocomplete -->
+        <div class="flex gap-3">
+          <input
+            type="text"
+            id="searchMurid"
+            oninput="renderTableMurid()"
+            placeholder="Cari nama murid..."
+            class="px-4 py-2 border rounded-xl text-xs w-full max-w-xs outline-none focus:border-blue-500"
+          />
+          <select
+            id="filterKelasMurid"
+            onchange="renderTableMurid()"
+            class="px-4 py-2 border rounded-xl text-xs outline-none focus:border-blue-500"
+          >
+            <option value="">Semua Kelas</option>
+            <option value="X-1">X-1</option>
+            <option value="X-2">X-2</option>
+            <option value="X-3">X-3</option>
+            <option value="X-4">X-4</option>
+          </select>
+        </div>
+
+        <div class="overflow-x-auto border border-slate-100 rounded-xl">
+          <table class="w-full text-left text-sm">
+            <thead class="bg-slate-50 text-slate-600">
+              <tr>
+                <th class="p-4 border-b">No</th>
+                <th class="p-4 border-b">Nama Lengkap Siswa</th>
+                <th class="p-4 border-b">Kelas</th>
+                <th class="p-4 border-b text-center">Edit / Hapus</th>
+              </tr>
+            </thead>
+            <tbody id="tableMurid" class="divide-y divide-slate-100"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div
+      id="customModalAlertAdmin"
+      class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm hidden items-center justify-center z-50 p-4"
+    >
+      <div
+        class="bg-white rounded-2xl max-w-sm w-full p-6 shadow-xl text-center space-y-4"
+      >
+        <div
+          id="adminAlertIcon"
+          class="w-12 h-12 rounded-full flex items-center justify-center mx-auto font-bold text-lg"
+        ></div>
+        <h3 id="adminAlertTitle" class="text-base font-bold text-slate-800">
+          Pemberitahuan
+        </h3>
+        <p
+          id="adminAlertMsg"
+          class="text-xs text-slate-500 leading-relaxed"
+        ></p>
+        <button
+          onclick="closeAdminAlert()"
+          class="w-full bg-slate-800 hover:bg-slate-900 text-white font-medium py-2.5 rounded-xl text-xs transition"
+        >
+          Mengerti
+        </button>
+      </div>
+    </div>
+
+    <div
+      id="customModalConfirmAdmin"
+      class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm hidden items-center justify-center z-50 p-4"
+    >
+      <div
+        class="bg-white rounded-2xl max-w-sm w-full p-6 shadow-xl text-center space-y-4"
+      >
+        <div
+          class="w-12 h-12 bg-red-100 text-red-600 rounded-full flex items-center justify-center mx-auto font-bold text-lg"
+        >
+          !
+        </div>
+        <h3 class="text-base font-bold text-slate-800">Konfirmasi Hapus</h3>
+        <p id="adminConfirmMsg" class="text-xs text-slate-500 leading-relaxed">
+          Apakah Anda yakin ingin menghapus data ini?
+        </p>
+        <div class="flex gap-2 pt-2">
+          <button
+            id="btnAdminConfirmCancel"
+            class="w-1/2 bg-slate-100 hover:bg-slate-200 text-slate-700 py-2.5 rounded-xl text-xs font-semibold transition"
+          >
+            Batal
+          </button>
+          <button
+            id="btnAdminConfirmOk"
+            class="w-1/2 bg-red-600 hover:bg-red-700 text-white py-2.5 rounded-xl text-xs font-semibold transition"
+          >
+            Hapus
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- CRUD murid -->
+    <div
+      id="modalMurid"
+      class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm hidden items-center justify-center z-50 p-4"
+    >
+      <div class="bg-white rounded-2xl max-w-sm w-full p-6 shadow-xl space-y-4">
+        <h3 id="modalMuridTitle" class="text-base font-bold text-slate-800">
+          Tambah Murid Baru
+        </h3>
+        <input type="hidden" id="editMuridIndex" />
+
+        <div class="space-y-3 text-xs">
+          <div>
+            <label class="block font-semibold mb-1">Nama Lengkap Siswa</label>
+            <input
+              type="text"
+              id="modalNama"
+              class="w-full px-3 py-2 border rounded-xl outline-none focus:border-blue-500"
+            />
+          </div>
+          <div>
+            <label class="block font-semibold mb-1">Kelas</label>
+            <select
+              id="modalKelas"
+              class="w-full px-3 py-2 border rounded-xl outline-none focus:border-blue-500"
+            >
+              <option value="X-1">X-1</option>
+              <option value="X-2">X-2</option>
+              <option value="X-3">X-3</option>
+              <option value="X-4">X-4</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="flex gap-2 pt-2">
+          <button
+            onclick="closeModalMurid()"
+            class="w-1/2 bg-slate-100 py-2.5 rounded-xl text-xs font-semibold text-slate-600"
+          >
+            Batal
+          </button>
+          <button
+            onclick="saveMurid()"
+            class="w-1/2 bg-blue-600 py-2.5 rounded-xl text-xs font-semibold text-white"
+          >
+            Simpan
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const full113Siswa = [
+        { nama: "Adela Nur Setia Putri Andriansyah", kelas: "X-1" },
+        { nama: "Afifa Fitiya Riyana", kelas: "X-1" },
+        { nama: "Akhtar Attallah Fattan Mardana", kelas: "X-1" },
+        { nama: "Ali Jafar As- Siddik", kelas: "X-1" },
+        { nama: "Almira Naaz Abdillah", kelas: "X-1" },
+        { nama: "Alvin Adeliovidy Tirtamanggala", kelas: "X-1" },
+        { nama: "Bunga Mi'rajul Khofifah", kelas: "X-1" },
+        { nama: "Desmita Sulistiawati", kelas: "X-1" },
+        { nama: "Dhafilia Aqilah Saragih", kelas: "X-1" },
+        { nama: "Emirsyah Fadilah Sattar", kelas: "X-1" },
+        { nama: "Finola Freya El Tsania", kelas: "X-1" },
+        { nama: "Ghaida Nur Fakhira", kelas: "X-1" },
+        { nama: "Hamzah Ramadani", kelas: "X-1" },
+        { nama: "Ja’far Shodiq Elli", kelas: "X-1" },
+        { nama: "Keyla Angelica Yuspi", kelas: "X-1" },
+        { nama: "Khalisya Alzahira", kelas: "X-1" },
+        { nama: "M. Adlan Syaban Afadar", kelas: "X-1" },
+        { nama: "M. Rasya Thariqurrahman", kelas: "X-1" },
+        { nama: "Mochammad Reiffandy Nugraha", kelas: "X-1" },
+        { nama: "Muhamad Zacky Akbar", kelas: "X-1" },
+        { nama: "Muhammad Eka Wahyu W.", kelas: "X-1" },
+        { nama: "Muhammad Raffa Raiman Hakim", kelas: "X-1" },
+        { nama: "Qaireen Akeela", kelas: "X-1" },
+        { nama: "Rafa Muhammad Fauzan", kelas: "X-1" },
+        { nama: "Rafahd Muhammad Gassan", kelas: "X-1" },
+        { nama: "Raichan Nurcholiq Prasetyo", kelas: "X-1" },
+        { nama: "Shafyra Dwi Julianty", kelas: "X-1" },
+        { nama: "Shalsabila Putri", kelas: "X-1" },
+        { nama: "Tazqia Arzutema Atlantas Dasbaidsta Timernur", kelas: "X-1" },
+        { nama: "Tsurayya Nadhira Asra", kelas: "X-1" },
+        { nama: "Aadinath Rauf Rei Ichirou", kelas: "X-2" },
+        { nama: "Abiyyu Ilma Malik Nirwana", kelas: "X-2" },
+        { nama: "Akbar Effendi", kelas: "X-2" },
+        { nama: "Alessya Hellyn Ramadhani", kelas: "X-2" },
+        { nama: "Alisya Zahira Syafakareena", kelas: "X-2" },
+        { nama: "Anbiya Ghifari", kelas: "X-2" },
+        { nama: "Aneskanya Shan Agmel", kelas: "X-2" },
+        { nama: "Fabian Arasy Rinaldi", kelas: "X-2" },
+        { nama: "Fadli Dwiyan Fauzi", kelas: "X-2" },
+        { nama: "Ibrahim Uno Putra Jauhari", kelas: "X-2" },
+        { nama: "Khansa Humaira Sofyan", kelas: "X-2" },
+        { nama: "Khansa Rizka Putri Firmansyah", kelas: "X-2" },
+        { nama: "Madarina Ghaisani Putri", kelas: "X-2" },
+        { nama: "Muhammad Arkaan Khoirul Azam", kelas: "X-2" },
+        { nama: "Muhammad Azzam Alfarisi", kelas: "X-2" },
+        { nama: "Muhammad Cavalier Didan Ekaputra Delamarre", kelas: "X-2" },
+        { nama: "Muhammad Rifqi Al Fakhri", kelas: "X-2" },
+        { nama: "Mutiara Citra Angraini Nursalam", kelas: "X-2" },
+        { nama: "Nadira Adiva Alfathunissa", kelas: "X-2" },
+        { nama: "Naufal Syafiq Alvaro", kelas: "X-2" },
+        { nama: "Nayla Husna Nur Izzaty", kelas: "X-2" },
+        { nama: "Nizar Athaya Iriana", kelas: "X-2" },
+        { nama: "Nur' Alifa Hisanah Hasbiani", kelas: "X-2" },
+        { nama: "Pasa Pawitra Payada", kelas: "X-2" },
+        { nama: "Syarifah Muda'im Saputra", kelas: "X-2" },
+        { nama: "Syawala Razan Hanafi", kelas: "X-2" },
+        { nama: "Vira Nur Alya Garniawan Kartawidjaja", kelas: "X-2" },
+        { nama: "Widia Khoirunisa", kelas: "X-2" },
+        { nama: "Afandy Putra Yuliansyah", kelas: "X-3" },
+        { nama: "Agni Koswara", kelas: "X-3" },
+        { nama: "Anggita Bunga Oktiana", kelas: "X-3" },
+        { nama: "Anisa Nisrina Wardah", kelas: "X-3" },
+        { nama: "Arya Wahyu Dwihandiko", kelas: "X-3" },
+        { nama: "Callista Amirah Maulana", kelas: "X-3" },
+        { nama: "Cantika Cahya Permata", kelas: "X-3" },
+        { nama: "Dena Trias Restu Asmaul Husna", kelas: "X-3" },
+        { nama: "Diva Piarka Wicaksana", kelas: "X-3" },
+        { nama: "Ghaida Nuradini Naziyah Zahra", kelas: "X-3" },
+        { nama: "Habbiel Nizham Nayarana", kelas: "X-3" },
+        { nama: "Hasna Aprillia Syafiyah", kelas: "X-3" },
+        { nama: "Hirza Yusya Imanulhaq A. P.", kelas: "X-3" },
+        { nama: "Kevin Uziel Kaindra", kelas: "X-3" },
+        { nama: "M. Dzikri Taufiqurrahman", kelas: "X-3" },
+        { nama: "Muhammad Fajar Fadlurrahman", kelas: "X-3" },
+        { nama: "Muhammad Hanif Hilmy Tsaqif", kelas: "X-3" },
+        { nama: "Muhammad Zaidan Noviandi", kelas: "X-3" },
+        { nama: "Najla Hanuna Adnan", kelas: "X-3" },
+        { nama: "Nisrina Alifatul Ilmi", kelas: "X-3" },
+        { nama: "Prinsha Olivia R", kelas: "X-3" },
+        { nama: "Queenza Khansa Zhafirah", kelas: "X-3" },
+        { nama: "Rakha Aryasatya Putra", kelas: "X-3" },
+        { nama: "Rayhan Malik Ibrahim", kelas: "X-3" },
+        { nama: "Razwa Athaya", kelas: "X-3" },
+        { nama: "Rifa Humaira Dewi", kelas: "X-3" },
+        { nama: "Saverio Zakiy Aprilian", kelas: "X-3" },
+        { nama: "Annisa Dhya Nacitha", kelas: "X-4" },
+        { nama: "Anshor Akmali Rahayu", kelas: "X-4" },
+        { nama: "Aqila Surya Danendra", kelas: "X-4" },
+        { nama: "Araisya Humaira Rizqiya", kelas: "X-4" },
+        { nama: "Arjia Firdaus", kelas: "X-4" },
+        { nama: "Azka Prima Aditya Sasongko", kelas: "X-4" },
+        { nama: "Debby Aurellya", kelas: "X-4" },
+        { nama: "Denisa Syafia Yonifa", kelas: "X-4" },
+        { nama: "Faeyza Al Ghani Setianugeraha", kelas: "X-4" },
+        { nama: "Faisal Abrari", kelas: "X-4" },
+        { nama: "Husnah Alifah Putri", kelas: "X-4" },
+        { nama: "Indyra Angely Firmansyah", kelas: "X-4" },
+        { nama: "Janeeta Rania", kelas: "X-4" },
+        { nama: "Kanaya Nurul Aeni", kelas: "X-4" },
+        { nama: "Kleins Muammar Shanahan Haitsuma Kunta", kelas: "X-4" },
+        { nama: "Muhammad Kanz Muazzam Alfiana", kelas: "X-4" },
+        { nama: "Muhammad Luthfi F", kelas: "X-4" },
+        { nama: "Muhammad Radhit Athalla", kelas: "X-4" },
+        { nama: "Naizar Dinar Al-zain", kelas: "X-4" },
+        { nama: "Naufal Mumtaz Hikmatullah", kelas: "X-4" },
+        { nama: "Naufal Pramudya R", kelas: "X-4" },
+        { nama: "Regi Geisya Putra Pratama", kelas: "X-4" },
+        { nama: "Rizky Andriansyah", kelas: "X-4" },
+        { nama: "Salsabiila Fathia Kurniawan", kelas: "X-4" },
+        { nama: "Saputra Solihin", kelas: "X-4" },
+        { nama: "Suntani Nur Syafiyyah", kelas: "X-4" },
+        { nama: "Syaka Pradana Wibowo", kelas: "X-4" },
+        { nama: "Tsurayya Dhiaul Zuhdiyyah", kelas: "X-4" },
+      ];
+
+      let storedMaster = JSON.parse(
+        localStorage.getItem("master_siswa") || "[]",
+      );
+      if (storedMaster.length < 100) {
+        localStorage.setItem("master_siswa", JSON.stringify(full113Siswa));
+      }
+
+      const loginPage = document.getElementById("loginPage");
+      const adminPage = document.getElementById("adminPage");
+      const alertBox = document.getElementById("alertBox");
+      const btnLogin = document.getElementById("btnLogin");
+      const loginForm = document.getElementById("loginForm");
+      const mainBody = document.getElementById("mainBody");
+
+      let timerInterval = null;
+
+      function checkLoginSession() {
+        const isLoggedIn = sessionStorage.getItem("admin_logged_in");
+        if (isLoggedIn === "true") {
+          mainBody.classList.remove("items-center", "justify-center");
+          mainBody.classList.add("py-10");
+          loginPage.classList.add("hidden");
+          adminPage.classList.remove("hidden");
+          renderTable();
+          renderTableMurid();
+        }
+      }
+
+      function showAdminAlert(msg, type = "error", title = "Pemberitahuan") {
+        const modal = document.getElementById("customModalAlertAdmin");
+        const icon = document.getElementById("adminAlertIcon");
+        document.getElementById("adminAlertTitle").textContent = title;
+        document.getElementById("adminAlertMsg").innerHTML = msg;
+
+        if (type === "error") {
+          icon.className =
+            "w-12 h-12 bg-red-100 text-red-600 rounded-full flex items-center justify-center mx-auto font-bold text-lg";
+          icon.textContent = "!";
+        } else {
+          icon.className =
+            "w-12 h-12 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto font-bold text-lg";
+          icon.textContent = "✓";
+        }
+
+        modal.classList.remove("hidden");
+        modal.classList.add("flex");
+      }
+
+      function closeAdminAlert() {
+        document
+          .getElementById("customModalAlertAdmin")
+          .classList.add("hidden");
+        document
+          .getElementById("customModalAlertAdmin")
+          .classList.remove("flex");
+      }
+
+      let onAdminConfirmCallback = null;
+      function showAdminConfirm(msg, onConfirm) {
+        document.getElementById("adminConfirmMsg").textContent = msg;
+        onAdminConfirmCallback = onConfirm;
+        const modal = document.getElementById("customModalConfirmAdmin");
+        modal.classList.remove("hidden");
+        modal.classList.add("flex");
+      }
+
+      document
+        .getElementById("btnAdminConfirmCancel")
+        .addEventListener("click", () => {
+          document
+            .getElementById("customModalConfirmAdmin")
+            .classList.add("hidden");
+          document
+            .getElementById("customModalConfirmAdmin")
+            .classList.remove("flex");
+        });
+
+      document
+        .getElementById("btnAdminConfirmOk")
+        .addEventListener("click", () => {
+          document
+            .getElementById("customModalConfirmAdmin")
+            .classList.add("hidden");
+          document
+            .getElementById("customModalConfirmAdmin")
+            .classList.remove("flex");
+          if (onAdminConfirmCallback) onAdminConfirmCallback();
+        });
+
+      checkSecurityState();
+      checkLoginSession();
+
+      function checkSecurityState() {
+        const isIpBlocked = localStorage.getItem("ip_blocked_permanently");
+        const lockUntil = localStorage.getItem("login_lock_until");
+
+        if (isIpBlocked === "true") {
+          showAlert(
+            "AKSES DIBLOKIR PERMANEN<br>Terlalu banyak percobaan login ilegal.",
+            "danger",
+          );
+          loginForm.classList.add("hidden");
+          return true;
+        }
+
+        if (lockUntil) {
+          const remainingMs = parseInt(lockUntil) - Date.now();
+          if (remainingMs > 0) {
+            startCountdown(remainingMs);
+            return true;
+          } else {
+            localStorage.removeItem("login_lock_until");
+            localStorage.setItem("login_attempts", "0");
+            hideAlert();
+          }
+        }
+        return false;
+      }
+
+      document.getElementById("btnLogin").addEventListener("click", () => {
+        if (checkSecurityState()) return;
+
+        const u = document.getElementById("user").value.trim();
+        const p = document.getElementById("pass").value.trim();
+
+        if (u === "SMAPAG" && p === "sma@1995") {
+          sessionStorage.setItem("admin_logged_in", "true");
+          localStorage.setItem("login_attempts", "0");
+          localStorage.setItem("temp_block_count", "0");
+          localStorage.removeItem("login_lock_until");
+          mainBody.classList.remove("items-center", "justify-center");
+          mainBody.classList.add("py-10");
+          loginPage.classList.add("hidden");
+          adminPage.classList.remove("hidden");
+          renderTable();
+          renderTableMurid();
+        } else {
+          let attempts =
+            parseInt(localStorage.getItem("login_attempts") || "0") + 1;
+          localStorage.setItem("login_attempts", attempts.toString());
+
+          if (attempts >= 3) {
+            let tempBlockCount =
+              parseInt(localStorage.getItem("temp_block_count") || "0") + 1;
+            localStorage.setItem("temp_block_count", tempBlockCount.toString());
+
+            if (tempBlockCount >= 3) {
+              localStorage.setItem("ip_blocked_permanently", "true");
+              showAlert(
+                "AKSES DIBLOKIR PERMANEN!<br>Perangkat Anda diblokir demi keamanan.",
+                "danger",
+              );
+              loginForm.classList.add("hidden");
+            } else {
+              const lockTime = Date.now() + 5 * 60 * 1000;
+              localStorage.setItem("login_lock_until", lockTime.toString());
+              startCountdown(5 * 60 * 1000);
+            }
+          } else {
+            showAlert(
+              `Username atau Password salah!<br>Sisa percobaan: ${3 - attempts}x lagi.`,
+              "warning",
+            );
+          }
+        }
+      });
+
+      function startCountdown(durationMs) {
+        btnLogin.disabled = true;
+        btnLogin.classList.add("opacity-50", "cursor-not-allowed");
+        let remaining = Math.ceil(durationMs / 1000);
+
+        updateTimerText(remaining);
+        if (timerInterval) clearInterval(timerInterval);
+
+        timerInterval = setInterval(() => {
+          remaining--;
+          if (remaining <= 0) {
+            clearInterval(timerInterval);
+            localStorage.removeItem("login_lock_until");
+            localStorage.setItem("login_attempts", "0");
+            btnLogin.disabled = false;
+            btnLogin.classList.remove("opacity-50", "cursor-not-allowed");
+            hideAlert();
+          } else {
+            updateTimerText(remaining);
+          }
+        }, 1000);
+      }
+
+      function updateTimerText(seconds) {
+        const m = Math.floor(seconds / 60);
+        const s = seconds % 60;
+        showAlert(
+          `Terlalu Banyak Percobaan Login<br>Coba lagi dalam <strong>${m}:${s < 10 ? "0" : ""}${s}</strong>`,
+          "danger",
+        );
+      }
+
+      function showAlert(msg, type) {
+        alertBox.innerHTML = msg;
+        alertBox.classList.remove(
+          "hidden",
+          "bg-red-50",
+          "text-red-600",
+          "bg-amber-50",
+          "text-amber-700",
+        );
+        alertBox.classList.add(
+          type === "danger" ? "bg-red-50" : "bg-amber-50",
+          type === "danger" ? "text-red-600" : "text-amber-700",
+        );
+      }
+
+      function hideAlert() {
+        alertBox.classList.add("hidden");
+      }
+
+      document.getElementById("btnLogout").addEventListener("click", () => {
+        sessionStorage.removeItem("admin_logged_in");
+        location.reload();
+      });
+
+      window.switchTab = function (tab) {
+        const pageDash = document.getElementById("pageDashboard");
+        const pageMurid = document.getElementById("pageMurid");
+        const tabDash = document.getElementById("tabDashboard");
+        const tabMurid = document.getElementById("tabMurid");
+
+        if (tab === "dashboard") {
+          pageDash.classList.remove("hidden");
+          pageMurid.classList.add("hidden");
+          tabDash.className =
+            "px-4 py-2 rounded-xl font-semibold text-xs bg-blue-600 text-white transition";
+          tabMurid.className =
+            "px-4 py-2 rounded-xl font-semibold text-xs bg-slate-100 text-slate-600 hover:bg-slate-200 transition";
+        } else {
+          pageDash.classList.add("hidden");
+          pageMurid.classList.remove("hidden");
+          tabMurid.className =
+            "px-4 py-2 rounded-xl font-semibold text-xs bg-blue-600 text-white transition";
+          tabDash.className =
+            "px-4 py-2 rounded-xl font-semibold text-xs bg-slate-100 text-slate-600 hover:bg-slate-200 transition";
+        }
+      };
+
+      function renderTable() {
+        const tbody = document.getElementById("tableAdmin");
+        tbody.innerHTML = "";
+        let db = JSON.parse(localStorage.getItem("db_ekskul") || "[]");
+        if (db.length === 0) {
+          tbody.innerHTML =
+            '<tr><td colspan="8" class="text-center p-6 text-slate-400">Belum ada data pendaftar.</td></tr>';
+          return;
+        }
+        db.forEach((item, index) => {
+          tbody.innerHTML += `
+          <tr class="hover:bg-slate-50">
+            <td class="p-4 font-semibold text-slate-400">${index + 1}</td>
+            <td class="p-4">${item.nisn}</td>
+            <td class="p-4 font-semibold">${item.nama}</td>
+            <td class="p-4">${item.gender === "Laki-laki" ? "L" : item.gender === "Perempuan" ? "P" : "-"}</td>
+            <td class="p-4"><span class="bg-blue-100 text-blue-700 px-2 py-1 rounded text-xs font-bold">${item.kelas}</span></td>
+            <td class="p-4">${item.ekskul}</td>
+            <td class="p-4">${item.wa}</td>
+            <td class="p-4 text-center">
+              <button onclick="hapusData(${item.id})" class="text-red-500 hover:text-red-700 font-semibold text-sm">Hapus</button>
+            </td>
+          </tr>
+        `;
+        });
+      }
+
+      window.hapusData = function (id) {
+        showAdminConfirm(
+          "Apakah Anda yakin ingin menghapus data pendaftaran ini?",
+          () => {
+            let db = JSON.parse(localStorage.getItem("db_ekskul") || "[]");
+            db = db.filter((d) => d.id !== id);
+            localStorage.setItem("db_ekskul", JSON.stringify(db));
+            renderTable();
+          },
+        );
+      };
+
+      function renderTableMurid() {
+        const tbody = document.getElementById("tableMurid");
+        const q = document.getElementById("searchMurid").value.toLowerCase();
+        const fKelas = document.getElementById("filterKelasMurid").value;
+
+        tbody.innerHTML = "";
+        let listMurid = JSON.parse(
+          localStorage.getItem("master_siswa") || "[]",
+        );
+
+        const filtered = listMurid.filter((item) => {
+          const matchNama = item.nama.toLowerCase().includes(q);
+          const matchKelas = fKelas === "" || item.kelas === fKelas;
+          return matchNama && matchKelas;
+        });
+
+        if (filtered.length === 0) {
+          tbody.innerHTML =
+            '<tr><td colspan="4" class="text-center p-6 text-slate-400">Data murid tidak ditemukan.</td></tr>';
+          return;
+        }
+
+        filtered.forEach((item, index) => {
+          const originalIndex = listMurid.findIndex(
+            (m) => m.nama === item.nama && m.kelas === item.kelas,
+          );
+          tbody.innerHTML += `
+          <tr class="hover:bg-slate-50">
+            <td class="p-4 font-semibold text-slate-400">${index + 1}</td>
+            <td class="p-4 font-semibold text-slate-800">${item.nama}</td>
+            <td class="p-4"><span class="bg-blue-50 text-blue-700 border border-blue-200 px-2 py-1 rounded text-xs font-bold">${item.kelas}</span></td>
+            <td class="p-4 text-center space-x-2">
+              <button onclick="editMurid(${originalIndex})" class="text-blue-600 hover:underline font-semibold text-xs">Edit</button>
+              <button onclick="deleteMurid(${originalIndex})" class="text-red-500 hover:underline font-semibold text-xs">Hapus</button>
+            </td>
+          </tr>
+        `;
+        });
+      }
+
+      window.openModalMurid = function () {
+        document.getElementById("modalMuridTitle").textContent =
+          "Tambah Murid Baru";
+        document.getElementById("editMuridIndex").value = "-1";
+        document.getElementById("modalNama").value = "";
+        document.getElementById("modalKelas").value = "X-1";
+        document.getElementById("modalMurid").classList.remove("hidden");
+        document.getElementById("modalMurid").classList.add("flex");
+      };
+
+      window.closeModalMurid = function () {
+        document.getElementById("modalMurid").classList.add("hidden");
+        document.getElementById("modalMurid").classList.remove("flex");
+      };
+
+      window.editMurid = function (index) {
+        let listMurid = JSON.parse(
+          localStorage.getItem("master_siswa") || "[]",
+        );
+        const item = listMurid[index];
+
+        document.getElementById("modalMuridTitle").textContent =
+          "Edit Data Murid";
+        document.getElementById("editMuridIndex").value = index;
+        document.getElementById("modalNama").value = item.nama;
+        document.getElementById("modalKelas").value = item.kelas;
+
+        document.getElementById("modalMurid").classList.remove("hidden");
+        document.getElementById("modalMurid").classList.add("flex");
+      };
+
+      window.saveMurid = function () {
+        const idx = parseInt(document.getElementById("editMuridIndex").value);
+        const nama = document.getElementById("modalNama").value.trim();
+        const kelas = document.getElementById("modalKelas").value;
+
+        if (!nama) {
+          showAdminAlert(
+            "Nama murid tidak boleh kosong!",
+            "error",
+            "Peringatan",
+          );
+          return;
+        }
+
+        let listMurid = JSON.parse(
+          localStorage.getItem("master_siswa") || "[]",
+        );
+
+        if (idx === -1) {
+          listMurid.push({ nama, kelas });
+        } else {
+          listMurid[idx] = { nama, kelas };
+        }
+
+        localStorage.setItem("master_siswa", JSON.stringify(listMurid));
+        closeModalMurid();
+        renderTableMurid();
+        showAdminAlert("Data murid berhasil disimpan!", "success", "Berhasil");
+      };
+
+      window.deleteMurid = function (index) {
+        showAdminConfirm(
+          "Yakin ingin menghapus murid ini dari database?",
+          () => {
+            let listMurid = JSON.parse(
+              localStorage.getItem("master_siswa") || "[]",
+            );
+            listMurid.splice(index, 1);
+            localStorage.setItem("master_siswa", JSON.stringify(listMurid));
+            renderTableMurid();
+          },
+        );
+      };
+
+      window.exportCSV = function () {
+        let db = JSON.parse(localStorage.getItem("db_ekskul") || "[]");
+        if (db.length === 0)
+          return showAdminAlert(
+            "Data pendaftar masih kosong, tidak ada yang bisa di-export.",
+            "error",
+            "Export Gagal",
+          );
+
+        const headers = [
+          "No",
+          "NISN",
+          "Nama Lengkap",
+          "Jenis Kelamin",
+          "Kelas",
+          "Pilihan Ekskul",
+          "WhatsApp",
+        ];
+        const rows = db.map((item, index) => [
+          index + 1,
+          `"${item.nisn}"`,
+          `"${item.nama}"`,
+          `"${item.gender}"`,
+          `"${item.kelas}"`,
+          `"${item.ekskul}"`,
+          `"${item.wa}"`,
+        ]);
+
+        const csvContent = [
+          headers.join(";"),
+          ...rows.map((row) => row.join(";")),
+        ].join("\r\n");
+        const blob = new Blob(["\uFEFF" + csvContent], {
+          type: "text/csv;charset=utf-8;",
+        });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.setAttribute("href", url);
+        link.setAttribute(
+          "download",
+          `Data_Pendaftaran_Ekskul_${Date.now()}.csv`,
+        );
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      };
+    </script>
+  </body>
+</html>

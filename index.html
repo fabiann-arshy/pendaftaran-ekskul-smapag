@@ -1,0 +1,664 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pendaftaran Ekskul Class X - SMAS Plus Al Ghifari</title>
+
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="https://services.smaplusalghifari.sch.id/public/file/preview/Vy7WzqZpBa"
+    />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Plus Jakarta Sans", sans-serif;
+      }
+      select:invalid,
+      select option[value=""] {
+        color: #94a3b8;
+      }
+      select option {
+        color: #1e293b;
+      }
+    </style>
+  </head>
+  <body class="bg-slate-100 text-slate-800 min-h-screen py-10 px-4">
+    <div class="max-w-3xl mx-auto space-y-8">
+      <div
+        class="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-blue-100 border-t-8 border-t-blue-600"
+      >
+        <h1
+          class="text-xl sm:text-2xl font-extrabold text-blue-950 uppercase tracking-tight leading-snug text-center"
+        >
+          PENDAFTARAN EKSKUR KELAS X, 2026–2027 SMAS PLUS AL GHIFARI BANDUNG
+        </h1>
+        <p class="text-sm text-slate-500 text-center mt-2">
+          Silakan isi formulir pendaftaran kegiatan ekstrakurikuler di bawah ini
+          dengan benar.
+        </p>
+      </div>
+
+      <div
+        class="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-blue-100"
+      >
+        <form id="ekskulForm" class="space-y-6" novalidate>
+          <div id="fieldNisn" class="hidden">
+            <label class="block text-sm font-semibold text-slate-700 mb-1"
+              >NISN <span class="text-red-500">*</span></label
+            >
+            <input
+              type="text"
+              id="inputNisn"
+              maxlength="10"
+              placeholder="Masukkan 10 digit NISN"
+              class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition text-sm"
+            />
+          </div>
+
+          <div class="relative">
+            <label class="block text-sm font-semibold text-slate-700 mb-1"
+              >Nama Lengkap <span class="text-red-500">*</span></label
+            >
+            <input
+              type="text"
+              id="inputNama"
+              autocomplete="off"
+              placeholder="Ketik nama siswa..."
+              class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition text-sm"
+            />
+            <div
+              id="autocompleteList"
+              class="hidden absolute left-0 right-0 mt-1 bg-white border border-slate-200 rounded-xl shadow-lg z-20 max-h-48 overflow-y-auto"
+            ></div>
+          </div>
+
+          <div id="fieldGender" class="hidden">
+            <label class="block text-sm font-semibold text-slate-700 mb-1"
+              >Jenis Kelamin <span class="text-red-500">*</span></label
+            >
+            <select
+              id="inputGender"
+              required
+              class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition text-sm"
+            >
+              <option value="" disabled selected hidden>Belum dipilih</option>
+              <option value="Laki-laki">Laki-laki</option>
+              <option value="Perempuan">Perempuan</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-sm font-semibold text-slate-700 mb-1"
+              >Kelas <span class="text-red-500">*</span></label
+            >
+            <select
+              id="inputKelas"
+              required
+              class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition text-sm"
+            >
+              <option value="" disabled selected hidden>Belum dipilih</option>
+              <option value="X-1">X-1</option>
+              <option value="X-2">X-2</option>
+              <option value="X-3">X-3</option>
+              <option value="X-4">X-4</option>
+            </select>
+          </div>
+
+          <div class="space-y-4 pt-2">
+            <label
+              class="block text-sm font-bold text-slate-800 border-b border-slate-100 pb-2"
+              >Pilihan Ekstrakurikuler</label
+            >
+
+            <div>
+              <label class="block text-xs font-semibold text-slate-500 mb-1"
+                >Pilihan 1 (Wajib)</label
+              >
+              <input
+                type="text"
+                value="Pramuka"
+                disabled
+                class="w-full px-4 py-2.5 rounded-xl bg-slate-100 text-slate-500 border border-slate-200 text-sm font-medium cursor-not-allowed"
+              />
+            </div>
+
+            <div id="ekskulContainer" class="space-y-4"></div>
+          </div>
+
+          <div>
+            <label class="block text-sm font-semibold text-slate-700 mb-1"
+              >Nomor WhatsApp / Kontak
+              <span class="text-red-500">*</span></label
+            >
+            <input
+              type="text"
+              id="inputWa"
+              placeholder="Contoh: 08123456789"
+              class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition text-sm"
+            />
+          </div>
+
+          <button
+            type="button"
+            id="btnSubmit"
+            class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-xl shadow-md transition duration-200 text-sm"
+          >
+            Kirim Pendaftaran
+          </button>
+        </form>
+
+        <!-- ke page daftar -->
+        <div class="mt-6 pt-4 border-t border-slate-100 text-center">
+          <p id="toggleMsg" class="text-xs text-slate-500">
+            Tidak terdaftar?,
+            <button
+              type="button"
+              id="btnToggleForm"
+              class="text-blue-600 font-semibold hover:underline"
+            >
+              yuk daftar sekarang!
+            </button>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div
+      id="customModalAlert"
+      class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm hidden items-center justify-center z-50 p-4"
+    >
+      <div
+        class="bg-white rounded-2xl max-w-sm w-full p-6 shadow-xl text-center space-y-4 transform transition-all"
+      >
+        <div
+          id="alertIconContainer"
+          class="w-12 h-12 rounded-full flex items-center justify-center mx-auto font-bold text-lg"
+        ></div>
+        <h3 id="alertTitle" class="text-base font-bold text-slate-800">
+          Pemberitahuan
+        </h3>
+        <p id="alertMessage" class="text-xs text-slate-500 leading-relaxed"></p>
+        <button
+          onclick="closeCustomAlert()"
+          class="w-full bg-slate-800 hover:bg-slate-900 text-white font-medium py-2.5 rounded-xl text-xs transition"
+        >
+          Mengerti
+        </button>
+      </div>
+    </div>
+
+    <div
+      id="customModalConfirm"
+      class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm hidden items-center justify-center z-50 p-4"
+    >
+      <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-xl space-y-4">
+        <h3
+          class="text-base font-bold text-slate-800 border-b border-slate-100 pb-2"
+        >
+          Konfirmasi Pendaftaran
+        </h3>
+        <p class="text-xs text-slate-600">
+          Apakah Anda yakin data berikut sudah benar?
+        </p>
+
+        <div
+          id="confirmDataSummary"
+          class="bg-slate-50 p-3.5 rounded-xl text-xs space-y-1.5 text-slate-700 border border-slate-100"
+        >
+          <!-- summary -->
+        </div>
+
+        <div class="flex gap-3 pt-2">
+          <button
+            id="btnConfirmCancel"
+            class="w-1/2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold py-2.5 rounded-xl text-xs transition"
+          >
+            Cek Lagi
+          </button>
+          <button
+            id="btnConfirmOk"
+            class="w-1/2 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 rounded-xl text-xs transition"
+          >
+            Iya, Kirim
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const databaseSiswa = [
+        { nama: "Adela Nur Setia Putri Andriansyah", kelas: "X-1" },
+        { nama: "Afifa Fitiya Riyana", kelas: "X-1" },
+        { nama: "Akhtar Attallah Fattan Mardana", kelas: "X-1" },
+        { nama: "Ali Jafar As- Siddik", kelas: "X-1" },
+        { nama: "Almira Naaz Abdillah", kelas: "X-1" },
+        { nama: "Alvin Adeliovidy Tirtamanggala", kelas: "X-1" },
+        { nama: "Bunga Mi'rajul Khofifah", kelas: "X-1" },
+        { nama: "Desmita Sulistiawati", kelas: "X-1" },
+        { nama: "Dhafilia Aqilah Saragih", kelas: "X-1" },
+        { nama: "Emirsyah Fadilah Sattar", kelas: "X-1" },
+        { nama: "Finola Freya El Tsania", kelas: "X-1" },
+        { nama: "Ghaida Nur Fakhira", kelas: "X-1" },
+        { nama: "Hamzah Ramadani", kelas: "X-1" },
+        { nama: "Ja’far Shodiq Elli", kelas: "X-1" },
+        { nama: "Keyla Angelica Yuspi", kelas: "X-1" },
+        { nama: "Khalisya Alzahira", kelas: "X-1" },
+        { nama: "M. Adlan Syaban Afadar", kelas: "X-1" },
+        { nama: "M. Rasya Thariqurrahman", kelas: "X-1" },
+        { nama: "Mochammad Reiffandy Nugraha", kelas: "X-1" },
+        { nama: "Muhamad Zacky Akbar", kelas: "X-1" },
+        { nama: "Muhammad Eka Wahyu W.", kelas: "X-1" },
+        { nama: "Muhammad Raffa Raiman Hakim", kelas: "X-1" },
+        { nama: "Qaireen Akeela", kelas: "X-1" },
+        { nama: "Rafa Muhammad Fauzan", kelas: "X-1" },
+        { nama: "Rafahd Muhammad Gassan", kelas: "X-1" },
+        { nama: "Raichan Nurcholiq Prasetyo", kelas: "X-1" },
+        { nama: "Shafyra Dwi Julianty", kelas: "X-1" },
+        { nama: "Shalsabila Putri", kelas: "X-1" },
+        { nama: "Tazqia Arzutema Atlantas Dasbaidsta Timernur", kelas: "X-1" },
+        { nama: "Tsurayya Nadhira Asra", kelas: "X-1" },
+        { nama: "Aadinath Rauf Rei Ichirou", kelas: "X-2" },
+        { nama: "Abiyyu Ilma Malik Nirwana", kelas: "X-2" },
+        { nama: "Akbar Effendi", kelas: "X-2" },
+        { nama: "Alessya Hellyn Ramadhani", kelas: "X-2" },
+        { nama: "Alisya Zahira Syafakareena", kelas: "X-2" },
+        { nama: "Anbiya Ghifari", kelas: "X-2" },
+        { nama: "Aneskanya Shan Agmel", kelas: "X-2" },
+        { nama: "Fabian Arasy Rinaldi", kelas: "X-2" },
+        { nama: "Fadli Dwiyan Fauzi", kelas: "X-2" },
+        { nama: "Ibrahim Uno Putra Jauhari", kelas: "X-2" },
+        { nama: "Khansa Humaira Sofyan", kelas: "X-2" },
+        { nama: "Khansa Rizka Putri Firmansyah", kelas: "X-2" },
+        { nama: "Madarina Ghaisani Putri", kelas: "X-2" },
+        { nama: "Muhammad Arkaan Khoirul Azam", kelas: "X-2" },
+        { nama: "Muhammad Azzam Alfarisi", kelas: "X-2" },
+        { nama: "Muhammad Cavalier Didan Ekaputra Delamarre", kelas: "X-2" },
+        { nama: "Muhammad Rifqi Al Fakhri", kelas: "X-2" },
+        { nama: "Mutiara Citra Angraini Nursalam", kelas: "X-2" },
+        { nama: "Nadira Adiva Alfathunissa", kelas: "X-2" },
+        { nama: "Naufal Syafiq Alvaro", kelas: "X-2" },
+        { nama: "Nayla Husna Nur Izzaty", kelas: "X-2" },
+        { nama: "Nizar Athaya Iriana", kelas: "X-2" },
+        { nama: "Nur' Alifa Hisanah Hasbiani", kelas: "X-2" },
+        { nama: "Pasa Pawitra Payada", kelas: "X-2" },
+        { nama: "Syarifah Muda'im Saputra", kelas: "X-2" },
+        { nama: "Syawala Razan Hanafi", kelas: "X-2" },
+        { nama: "Vira Nur Alya Garniawan Kartawidjaja", kelas: "X-2" },
+        { nama: "Widia Khoirunisa", kelas: "X-2" },
+        { nama: "Afandy Putra Yuliansyah", kelas: "X-3" },
+        { nama: "Agni Koswara", kelas: "X-3" },
+        { nama: "Anggita Bunga Oktiana", kelas: "X-3" },
+        { nama: "Anisa Nisrina Wardah", kelas: "X-3" },
+        { nama: "Arya Wahyu Dwihandiko", kelas: "X-3" },
+        { nama: "Callista Amirah Maulana", kelas: "X-3" },
+        { nama: "Cantika Cahya Permata", kelas: "X-3" },
+        { nama: "Dena Trias Restu Asmaul Husna", kelas: "X-3" },
+        { nama: "Diva Piarka Wicaksana", kelas: "X-3" },
+        { nama: "Ghaida Nuradini Naziyah Zahra", kelas: "X-3" },
+        { nama: "Habbiel Nizham Nayarana", kelas: "X-3" },
+        { nama: "Hasna Aprillia Syafiyah", kelas: "X-3" },
+        { nama: "Hirza Yusya Imanulhaq A. P.", kelas: "X-3" },
+        { nama: "Kevin Uziel Kaindra", kelas: "X-3" },
+        { nama: "M. Dzikri Taufiqurrahman", kelas: "X-3" },
+        { nama: "Muhammad Fajar Fadlurrahman", kelas: "X-3" },
+        { nama: "Muhammad Hanif Hilmy Tsaqif", kelas: "X-3" },
+        { nama: "Muhammad Zaidan Noviandi", kelas: "X-3" },
+        { nama: "Najla Hanuna Adnan", kelas: "X-3" },
+        { nama: "Nisrina Alifatul Ilmi", kelas: "X-3" },
+        { nama: "Prinsha Olivia R", kelas: "X-3" },
+        { nama: "Queenza Khansa Zhafirah", kelas: "X-3" },
+        { nama: "Rakha Aryasatya Putra", kelas: "X-3" },
+        { nama: "Rayhan Malik Ibrahim", kelas: "X-3" },
+        { nama: "Razwa Athaya", kelas: "X-3" },
+        { nama: "Rifa Humaira Dewi", kelas: "X-3" },
+        { nama: "Saverio Zakiy Aprilian", kelas: "X-3" },
+        { nama: "Annisa Dhya Nacitha", kelas: "X-4" },
+        { nama: "Anshor Akmali Rahayu", kelas: "X-4" },
+        { nama: "Aqila Surya Danendra", kelas: "X-4" },
+        { nama: "Araisya Humaira Rizqiya", kelas: "X-4" },
+        { nama: "Arjia Firdaus", kelas: "X-4" },
+        { nama: "Azka Prima Aditya Sasongko", kelas: "X-4" },
+        { nama: "Debby Aurellya", kelas: "X-4" },
+        { nama: "Denisa Syafia Yonifa", kelas: "X-4" },
+        { nama: "Faeyza Al Ghani Setianugeraha", kelas: "X-4" },
+        { nama: "Faisal Abrari", kelas: "X-4" },
+        { nama: "Husnah Alifah Putri", kelas: "X-4" },
+        { nama: "Indyra Angely Firmansyah", kelas: "X-4" },
+        { nama: "Janeeta Rania", kelas: "X-4" },
+        { nama: "Kanaya Nurul Aeni", kelas: "X-4" },
+        { nama: "Kleins Muammar Shanahan Haitsuma Kunta", kelas: "X-4" },
+        { nama: "Muhammad Kanz Muazzam Alfiana", kelas: "X-4" },
+        { nama: "Muhammad Luthfi F", kelas: "X-4" },
+        { nama: "Muhammad Radhit Athalla", kelas: "X-4" },
+        { nama: "Naizar Dinar Al-zain", kelas: "X-4" },
+        { nama: "Naufal Mumtaz Hikmatullah", kelas: "X-4" },
+        { nama: "Naufal Pramudya R", kelas: "X-4" },
+        { nama: "Regi Geisya Putra Pratama", kelas: "X-4" },
+        { nama: "Rizky Andriansyah", kelas: "X-4" },
+        { nama: "Salsabiila Fathia Kurniawan", kelas: "X-4" },
+        { nama: "Saputra Solihin", kelas: "X-4" },
+        { nama: "Suntani Nur Syafiyyah", kelas: "X-4" },
+        { nama: "Syaka Pradana Wibowo", kelas: "X-4" },
+        { nama: "Tsurayya Dhiaul Zuhdiyyah", kelas: "X-4" },
+      ];
+
+      const daftarEkskul = [
+        "Badminton",
+        "Futsal",
+        "Basket",
+        "Chemistry Club",
+        "Ekonomi Club",
+        "Japanese Club",
+        "English Club",
+        "Kabaret",
+        "Lainnya",
+      ];
+      let modeTerdaftar = true;
+
+      const inputNama = document.getElementById("inputNama");
+      const inputKelas = document.getElementById("inputKelas");
+      const inputNisn = document.getElementById("inputNisn");
+      const inputGender = document.getElementById("inputGender");
+      const inputWa = document.getElementById("inputWa");
+      const autocompleteList = document.getElementById("autocompleteList");
+      const fieldNisn = document.getElementById("fieldNisn");
+      const fieldGender = document.getElementById("fieldGender");
+      const btnToggleForm = document.getElementById("btnToggleForm");
+      const toggleMsg = document.getElementById("toggleMsg");
+
+      function showCustomAlert(msg, type = "error", title = "Pemberitahuan") {
+        const modal = document.getElementById("customModalAlert");
+        const iconBox = document.getElementById("alertIconContainer");
+        document.getElementById("alertTitle").textContent = title;
+        document.getElementById("alertMessage").innerHTML = msg;
+
+        if (type === "error") {
+          iconBox.className =
+            "w-12 h-12 bg-red-100 text-red-600 rounded-full flex items-center justify-center mx-auto font-bold text-lg";
+          iconBox.textContent = "!";
+        } else if (type === "success") {
+          iconBox.className =
+            "w-12 h-12 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto font-bold text-lg";
+          iconBox.textContent = "✓";
+        } else {
+          iconBox.className =
+            "w-12 h-12 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center mx-auto font-bold text-lg";
+          iconBox.textContent = "i";
+        }
+
+        modal.classList.remove("hidden");
+        modal.classList.add("flex");
+      }
+
+      function closeCustomAlert() {
+        const modal = document.getElementById("customModalAlert");
+        modal.classList.add("hidden");
+        modal.classList.remove("flex");
+      }
+
+      const container = document.getElementById("ekskulContainer");
+      for (let i = 2; i <= 5; i++) {
+        let slotHTML = `
+        <div class="ekskul-slot">
+          <label class="block text-xs font-semibold text-slate-500 mb-1">Pilihan ${i} (Opsional)</label>
+          <select class="ekskul-select w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-blue-500 outline-none text-sm" required>
+            <option value="" selected hidden>Belum dipilih</option>
+            ${daftarEkskul.map((e) => `<option value="${e}">${e}</option>`).join("")}
+          </select>
+          <input type="text" placeholder="Ketik nama ekskul..." class="ekskul-custom hidden mt-2 w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm">
+        </div>`;
+        container.insertAdjacentHTML("beforeend", slotHTML);
+      }
+
+      document.querySelectorAll(".ekskul-slot").forEach((slot) => {
+        const select = slot.querySelector(".ekskul-select");
+        const custom = slot.querySelector(".ekskul-custom");
+
+        select.addEventListener("change", (e) => {
+          select.removeAttribute("required");
+          if (e.target.value === "Lainnya") custom.classList.remove("hidden");
+          else {
+            custom.classList.add("hidden");
+            custom.value = "";
+          }
+        });
+
+        custom.addEventListener("input", (e) => {
+          if (/[^a-zA-Z\s]/.test(e.target.value)) {
+            showCustomAlert(
+              "Kolom nama ekskul hanya boleh memuat huruf dan spasi!",
+              "error",
+              "Format Input Salah",
+            );
+            e.target.value = e.target.value.replace(/[^a-zA-Z\s]/g, "");
+          }
+        });
+      });
+
+      inputNama.addEventListener("input", (e) => {
+        const val = e.target.value;
+        if (/[^a-zA-Z\s'’.-]/.test(val)) {
+          showCustomAlert(
+            "Nama hanya boleh menggunakan huruf alfabet!",
+            "error",
+            "Format Input Salah",
+          );
+          inputNama.value = val.replace(/[^a-zA-Z\s'’.-]/g, "");
+          return;
+        }
+
+        autocompleteList.innerHTML = "";
+        if (!val || !modeTerdaftar) {
+          autocompleteList.classList.add("hidden");
+          return;
+        }
+
+        const currentDB = JSON.parse(
+          localStorage.getItem("master_siswa") || JSON.stringify(databaseSiswa),
+        );
+        const matches = currentDB.filter((s) =>
+          s.nama.toLowerCase().includes(val.toLowerCase()),
+        );
+        if (matches.length === 0) {
+          autocompleteList.classList.add("hidden");
+          return;
+        }
+
+        matches.forEach((s) => {
+          const div = document.createElement("div");
+          div.className =
+            "px-4 py-2 hover:bg-blue-50 cursor-pointer text-xs border-b border-slate-50 last:border-none";
+          div.textContent = `${s.nama} (${s.kelas})`;
+          div.addEventListener("click", () => {
+            inputNama.value = s.nama;
+            inputKelas.value = s.kelas;
+            inputKelas.removeAttribute("required");
+            autocompleteList.classList.add("hidden");
+          });
+          autocompleteList.appendChild(div);
+        });
+        autocompleteList.classList.remove("hidden");
+      });
+
+      document.addEventListener("click", (e) => {
+        if (
+          !inputNama.contains(e.target) &&
+          !autocompleteList.contains(e.target)
+        ) {
+          autocompleteList.classList.add("hidden");
+        }
+      });
+
+      // FILTER INPUT ANGKAS
+      inputWa.addEventListener("input", (e) => {
+        if (/[^0-9]/.test(e.target.value)) {
+          showCustomAlert(
+            "Nomor WhatsApp/Kontak hanya boleh berisi angka!",
+            "error",
+            "Format Input Salah",
+          );
+          e.target.value = e.target.value.replace(/[^0-9]/g, "");
+        }
+      });
+
+      inputNisn.addEventListener("input", (e) => {
+        if (/[^0-9]/.test(e.target.value)) {
+          showCustomAlert(
+            "NISN hanya boleh berisi angka!",
+            "error",
+            "Format Input Salah",
+          );
+          e.target.value = e.target.value.replace(/[^0-9]/g, "");
+        }
+      });
+
+      btnToggleForm.addEventListener("click", toggleFormMode);
+
+      function toggleFormMode() {
+        modeTerdaftar = !modeTerdaftar;
+        document.getElementById("ekskulForm").reset();
+        inputKelas.setAttribute("required", "true");
+
+        if (modeTerdaftar) {
+          fieldNisn.classList.add("hidden");
+          fieldGender.classList.add("hidden");
+          toggleMsg.innerHTML =
+            'Tidak terdaftar?, <button type="button" id="btnToggleForm" class="text-blue-600 font-semibold hover:underline">yuk daftar sekarang!</button>';
+        } else {
+          fieldNisn.classList.remove("hidden");
+          fieldGender.classList.remove("hidden");
+          toggleMsg.innerHTML =
+            'Sudah terdaftar?, <button type="button" id="btnToggleForm" class="text-blue-600 font-semibold hover:underline">kembali ke pencarian nama</button>';
+        }
+        document
+          .getElementById("btnToggleForm")
+          .addEventListener("click", toggleFormMode);
+      }
+
+      let pendingSubmitData = null;
+
+      document.getElementById("btnSubmit").addEventListener("click", () => {
+        let valid = true;
+
+        if (!modeTerdaftar) {
+          if (!inputNisn.value || inputNisn.value.length !== 10) {
+            showCustomAlert(
+              "NISN wajib diisi dan harus tepat 10 digit angka!",
+              "error",
+              "NISN Tidak Valid",
+            );
+            inputNisn.classList.add("border-red-500");
+            valid = false;
+            return;
+          } else {
+            inputNisn.classList.remove("border-red-500");
+          }
+
+          if (!inputGender.value) {
+            inputGender.classList.add("border-red-500");
+            valid = false;
+          } else {
+            inputGender.classList.remove("border-red-500");
+          }
+        }
+
+        if (!inputNama.value.trim()) {
+          inputNama.classList.add("border-red-500");
+          valid = false;
+        } else {
+          inputNama.classList.remove("border-red-500");
+        }
+
+        if (!inputKelas.value) {
+          inputKelas.classList.add("border-red-500");
+          valid = false;
+        } else {
+          inputKelas.classList.remove("border-red-500");
+        }
+
+        if (!inputWa.value.trim()) {
+          inputWa.classList.add("border-red-500");
+          valid = false;
+        } else {
+          inputWa.classList.remove("border-red-500");
+        }
+
+        if (!valid) {
+          showCustomAlert(
+            "Harap lengkapi semua isian wajib yang bergaris merah!",
+            "error",
+            "Data Belum Lengkap",
+          );
+          return;
+        }
+
+        let ekskuls = ["Pramuka"];
+        document.querySelectorAll(".ekskul-slot").forEach((slot) => {
+          const sel = slot.querySelector(".ekskul-select").value;
+          const cus = slot.querySelector(".ekskul-custom").value;
+          if (sel === "Lainnya" && cus) ekskuls.push(cus);
+          else if (sel && sel !== "Lainnya") ekskuls.push(sel);
+        });
+
+        pendingSubmitData = {
+          id: Date.now(),
+          nisn: modeTerdaftar ? "-" : inputNisn.value,
+          nama: inputNama.value,
+          gender: modeTerdaftar ? "-" : inputGender.value,
+          kelas: inputKelas.value,
+          wa: inputWa.value,
+          ekskul: ekskuls.join(", "),
+        };
+
+        document.getElementById("confirmDataSummary").innerHTML = `
+        <p><strong>Nama:</strong> ${pendingSubmitData.nama}</p>
+        ${!modeTerdaftar ? `<p><strong>NISN:</strong> ${pendingSubmitData.nisn}</p>` : ""}
+        ${!modeTerdaftar ? `<p><strong>Jenis Kelamin:</strong> ${pendingSubmitData.gender}</p>` : ""}
+        <p><strong>Kelas:</strong> ${pendingSubmitData.kelas}</p>
+        <p><strong>WhatsApp:</strong> ${pendingSubmitData.wa}</p>
+        <p><strong>Ekskul:</strong> ${pendingSubmitData.ekskul}</p>
+      `;
+
+        const confirmModal = document.getElementById("customModalConfirm");
+        confirmModal.classList.remove("hidden");
+        confirmModal.classList.add("flex");
+      });
+
+      document
+        .getElementById("btnConfirmCancel")
+        .addEventListener("click", () => {
+          document.getElementById("customModalConfirm").classList.add("hidden");
+          document
+            .getElementById("customModalConfirm")
+            .classList.remove("flex");
+        });
+
+      document.getElementById("btnConfirmOk").addEventListener("click", () => {
+        document.getElementById("customModalConfirm").classList.add("hidden");
+        document.getElementById("customModalConfirm").classList.remove("flex");
+
+        if (pendingSubmitData) {
+          let db = JSON.parse(localStorage.getItem("db_ekskul") || "[]");
+          db.push(pendingSubmitData);
+          localStorage.setItem("db_ekskul", JSON.stringify(db));
+
+          showCustomAlert(
+            "Pendaftaran berhasil tersimpan!",
+            "success",
+            "Berhasil",
+          );
+          document.getElementById("ekskulForm").reset();
+          inputKelas.setAttribute("required", "true");
+          pendingSubmitData = null;
+        }
+      });
+    </script>
+  </body>
+</html>
