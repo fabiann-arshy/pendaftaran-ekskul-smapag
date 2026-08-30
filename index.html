@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Pendaftaran Ekskul Kelas X - SMAS Plus Al Ghifari Bandung</title>
+    <title>Pendaftaran Ekskul Class X - SMAS Plus Al Ghifari</title>
 
     <link
       rel="icon"
@@ -29,13 +29,15 @@
       }
     </style>
   </head>
-  <body class="bg-slate-100 text-slate-800 min-h-screen py-10 px-4 flex flex-col justify-between">
+  <body
+    class="bg-amber-50/50 text-slate-800 min-h-screen py-10 px-4 flex flex-col justify-between"
+  >
     <div class="max-w-3xl mx-auto space-y-8 w-full">
       <div
-        class="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-blue-100 border-t-8 border-t-blue-600"
+        class="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-amber-200 border-t-8 border-t-amber-500"
       >
         <h1
-          class="text-xl sm:text-2xl font-extrabold text-blue-950 uppercase tracking-tight leading-snug text-center"
+          class="text-xl sm:text-2xl font-extrabold text-amber-950 uppercase tracking-tight leading-snug text-center"
         >
           PENDAFTARAN EKSKUR KELAS X, 2026–2027 SMAS PLUS AL GHIFARI BANDUNG
         </h1>
@@ -46,7 +48,7 @@
       </div>
 
       <div
-        class="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-blue-100"
+        class="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-amber-200"
       >
         <form id="ekskulForm" class="space-y-6" novalidate>
           <div id="fieldNisn" class="hidden">
@@ -58,7 +60,7 @@
               id="inputNisn"
               maxlength="10"
               placeholder="Masukkan 10 digit NISN"
-              class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition text-sm"
+              class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-amber-500 focus:ring-2 focus:ring-amber-100 outline-none transition text-sm"
             />
           </div>
 
@@ -71,7 +73,7 @@
               id="inputNama"
               autocomplete="off"
               placeholder="Ketik nama siswa..."
-              class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition text-sm"
+              class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-amber-500 focus:ring-2 focus:ring-amber-100 outline-none transition text-sm"
             />
             <div
               id="autocompleteList"
@@ -86,7 +88,7 @@
             <select
               id="inputGender"
               required
-              class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition text-sm"
+              class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-amber-500 focus:ring-2 focus:ring-amber-100 outline-none transition text-sm"
             >
               <option value="" disabled selected hidden>Belum dipilih</option>
               <option value="Laki-laki">Laki-laki</option>
@@ -101,7 +103,7 @@
             <select
               id="inputKelas"
               required
-              class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition text-sm"
+              class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-amber-500 focus:ring-2 focus:ring-amber-100 outline-none transition text-sm"
             >
               <option value="" disabled selected hidden>Belum dipilih</option>
               <option value="X-1">X-1</option>
@@ -141,14 +143,14 @@
               type="text"
               id="inputWa"
               placeholder="Contoh: 08123456789"
-              class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition text-sm"
+              class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-amber-500 focus:ring-2 focus:ring-amber-100 outline-none transition text-sm"
             />
           </div>
 
           <button
             type="button"
             id="btnSubmit"
-            class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-xl shadow-md transition duration-200 text-sm"
+            class="w-full bg-amber-500 hover:bg-amber-600 text-white font-semibold py-3 rounded-xl shadow-md transition duration-200 text-sm"
           >
             Kirim Pendaftaran
           </button>
@@ -161,7 +163,7 @@
             <button
               type="button"
               id="btnToggleForm"
-              class="text-blue-600 font-semibold hover:underline"
+              class="text-amber-600 font-semibold hover:underline"
             >
               yuk daftar sekarang!
             </button>
@@ -172,7 +174,13 @@
 
     <!-- WATERMARK FOOTER -->
     <footer class="mt-8 text-center text-xs text-slate-400">
-      Support WebDev <a href="https://www.instagram.com/fabiann_arshy/" target="_blank" class="font-semibold text-blue-600 hover:underline">@fabiann_arshy</a>
+      Support WebDev
+      <a
+        href="https://www.instagram.com/fabiann_arshy/"
+        target="_blank"
+        class="font-semibold text-blue-600 hover:underline"
+        >@fabiann_arshy</a
+      >
     </footer>
 
     <div
@@ -215,7 +223,7 @@
 
         <div
           id="confirmDataSummary"
-          class="bg-slate-50 p-3.5 rounded-xl text-xs space-y-1.5 text-slate-700 border border-slate-100"
+          class="bg-amber-50/60 p-3.5 rounded-xl text-xs space-y-1.5 text-slate-700 border border-amber-100"
         >
           <!-- summary -->
         </div>
@@ -229,7 +237,7 @@
           </button>
           <button
             id="btnConfirmOk"
-            class="w-1/2 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 rounded-xl text-xs transition"
+            class="w-1/2 bg-amber-500 hover:bg-amber-600 text-white font-semibold py-2.5 rounded-xl text-xs transition"
           >
             Iya, Kirim
           </button>
@@ -413,7 +421,7 @@
         let slotHTML = `
         <div class="ekskul-slot">
           <label class="block text-xs font-semibold text-slate-500 mb-1">Pilihan ${i} (Opsional)</label>
-          <select class="ekskul-select w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-blue-500 outline-none text-sm" required>
+          <select class="ekskul-select w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-amber-500 outline-none text-sm" required>
             <option value="" selected hidden>Belum dipilih</option>
             ${daftarEkskul.map((e) => `<option value="${e}">${e}</option>`).join("")}
           </select>
@@ -479,7 +487,7 @@
         matches.forEach((s) => {
           const div = document.createElement("div");
           div.className =
-            "px-4 py-2 hover:bg-blue-50 cursor-pointer text-xs border-b border-slate-50 last:border-none";
+            "px-4 py-2 hover:bg-amber-50 cursor-pointer text-xs border-b border-slate-50 last:border-none";
           div.textContent = `${s.nama} (${s.kelas})`;
           div.addEventListener("click", () => {
             inputNama.value = s.nama;
@@ -501,7 +509,6 @@
         }
       });
 
-      // FILTER INPUT ANGKAS
       inputWa.addEventListener("input", (e) => {
         if (/[^0-9]/.test(e.target.value)) {
           showCustomAlert(
@@ -535,12 +542,12 @@
           fieldNisn.classList.add("hidden");
           fieldGender.classList.add("hidden");
           toggleMsg.innerHTML =
-            'Tidak terdaftar?, <button type="button" id="btnToggleForm" class="text-blue-600 font-semibold hover:underline">yuk daftar sekarang!</button>';
+            'Tidak terdaftar?, <button type="button" id="btnToggleForm" class="text-amber-600 font-semibold hover:underline">yuk daftar sekarang!</button>';
         } else {
           fieldNisn.classList.remove("hidden");
           fieldGender.classList.remove("hidden");
           toggleMsg.innerHTML =
-            'Sudah terdaftar?, <button type="button" id="btnToggleForm" class="text-blue-600 font-semibold hover:underline">kembali ke pencarian nama</button>';
+            'Sudah terdaftar?, <button type="button" id="btnToggleForm" class="text-amber-600 font-semibold hover:underline">kembali ke pencarian nama</button>';
         }
         document
           .getElementById("btnToggleForm")
@@ -600,6 +607,23 @@
             "Harap lengkapi semua isian wajib yang bergaris merah!",
             "error",
             "Data Belum Lengkap",
+          );
+          return;
+        }
+
+        // FITUR BARU: CEK NAMA SUDAH TERDAFTAR ATAU BELUM
+        let existingDB = JSON.parse(localStorage.getItem("db_ekskul") || "[]");
+        const isAlreadyRegistered = existingDB.some(
+          (item) =>
+            item.nama.trim().toLowerCase() ===
+            inputNama.value.trim().toLowerCase(),
+        );
+
+        if (isAlreadyRegistered) {
+          showCustomAlert(
+            `Nama <strong>${inputNama.value.trim()}</strong> sudah terdaftar dalam sistem pendaftaran!<br><br>Setiap siswa hanya dapat mengisi formulir 1 kali.`,
+            "error",
+            "Sudah Terdaftar",
           );
           return;
         }
