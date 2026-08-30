@@ -24,15 +24,19 @@
   </head>
   <body
     id="mainBody"
-    class="bg-slate-100 text-slate-800 min-h-screen flex flex-col justify-between p-4 items-center"
+    class="bg-amber-50/50 text-slate-800 min-h-screen flex flex-col justify-between p-3 sm:p-6 items-center"
   >
     <div
       id="loginPage"
-      class="bg-white p-8 rounded-2xl shadow-sm border border-blue-100 w-full max-w-sm border-t-8 border-t-blue-600 my-auto"
+      class="bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-amber-200 w-full max-w-sm border-t-8 border-t-amber-500 my-auto"
     >
       <div class="text-center mb-6">
-        <h2 class="text-2xl font-bold text-blue-950">Login Admin</h2>
-        <p class="text-sm text-slate-500">Panel CRUD Pendaftaran Ekskul</p>
+        <h2 class="text-xl sm:text-2xl font-bold text-amber-950">
+          Login Admin
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-500">
+          Panel CRUD Pendaftaran Ekskul
+        </p>
       </div>
 
       <div
@@ -42,33 +46,52 @@
 
       <form id="loginForm" class="space-y-4" onsubmit="return false;">
         <div>
-          <label class="block text-sm font-semibold text-slate-700 mb-1"
+          <label
+            class="block text-xs sm:text-sm font-semibold text-slate-700 mb-1"
             >Username</label
           >
           <input
             type="text"
             id="user"
-            class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-blue-500 outline-none text-sm transition"
+            class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-amber-500 outline-none text-sm transition"
           />
         </div>
         <div>
-          <label class="block text-sm font-semibold text-slate-700 mb-1"
+          <label
+            class="block text-xs sm:text-sm font-semibold text-slate-700 mb-1"
             >Password</label
           >
           <div class="relative">
             <input
               type="password"
               id="pass"
-              class="w-full px-4 py-2.5 pr-10 rounded-xl border border-slate-200 focus:border-blue-500 outline-none text-sm transition"
+              class="w-full px-4 py-2.5 pr-10 rounded-xl border border-slate-200 focus:border-amber-500 outline-none text-sm transition"
             />
             <button
               type="button"
               id="btnTogglePass"
               class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 focus:outline-none"
             >
-              <svg id="eyeIcon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+              <svg
+                id="eyeIcon"
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                />
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                />
               </svg>
             </button>
           </div>
@@ -76,44 +99,53 @@
         <button
           id="btnLogin"
           type="submit"
-          class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl transition shadow-sm"
+          class="w-full bg-amber-500 hover:bg-amber-600 text-white font-bold py-3 rounded-xl transition shadow-sm text-sm"
         >
           Login
         </button>
       </form>
     </div>
 
-    <div id="adminPage" class="hidden w-full max-w-6xl mx-auto space-y-6">
+    <div
+      id="adminPage"
+      class="hidden w-full max-w-6xl mx-auto space-y-4 sm:space-y-6"
+    >
       <div
-        class="bg-white p-6 rounded-2xl shadow-sm border border-blue-100 border-t-8 border-t-blue-600 space-y-4"
+        class="bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-amber-200 border-t-8 border-t-amber-500 space-y-4"
       >
-        <div class="flex justify-between items-center">
+        <div
+          class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3"
+        >
           <div>
-            <h1 class="text-xl font-bold text-blue-950">
+            <h1 class="text-lg sm:text-xl font-bold text-amber-950">
               CRUD Data Pendaftar Ekskul
             </h1>
-            <p class="text-sm text-slate-500">SMAS Plus Al Ghifari Bandung</p>
+            <p class="text-xs sm:text-sm text-slate-500">
+              SMAS Plus Al Ghifari Bandung
+            </p>
           </div>
           <button
             id="btnLogout"
-            class="bg-red-50 text-red-600 px-4 py-2 rounded-xl font-semibold hover:bg-red-100 transition text-sm"
+            class="self-end sm:self-auto bg-red-50 text-red-600 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-xl font-semibold hover:bg-red-100 transition text-xs sm:text-sm"
           >
             Logout
           </button>
         </div>
 
-        <div class="flex gap-2 border-b border-slate-100 pb-2">
+        <div
+          class="flex flex-col sm:flex-row gap-2 border-b border-slate-100 pb-2"
+        >
           <button
             id="tabDashboard"
             onclick="switchTab('dashboard')"
-            class="px-4 py-2 rounded-xl font-semibold text-xs bg-blue-600 text-white transition"
+            class="w-full sm:w-auto px-4 py-2 rounded-xl font-semibold text-xs bg-amber-500 text-white transition text-center"
           >
             Dashboard Pendaftaran
           </button>
           <button
             id="tabMurid"
             onclick="switchTab('murid')"
-            class="px-4 py-2 rounded-xl font-semibold text-xs bg-slate-100 text-slate-600 hover:bg-slate-200 transition"
+            class="w-full sm:w-auto px-4 py-2 rounded-xl font-semibold text-xs bg-slate-100 text-slate-600 hover:bg-slate-200 transition text-center"
           >
             Kelola Data Murid
           </button>
@@ -122,11 +154,13 @@
 
       <div
         id="pageDashboard"
-        class="bg-white rounded-2xl p-6 shadow-sm border border-blue-100 space-y-4"
+        class="bg-white rounded-2xl p-4 sm:p-6 shadow-sm border border-amber-200 space-y-4"
       >
-        <div class="flex justify-between items-center">
+        <div
+          class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3"
+        >
           <div>
-            <h2 class="text-lg font-bold text-slate-800">
+            <h2 class="text-base sm:text-lg font-bold text-slate-800">
               Data Pendaftar Ekskul
             </h2>
             <p class="text-xs text-slate-400">
@@ -135,24 +169,24 @@
           </div>
           <button
             onclick="exportCSV()"
-            class="bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded-xl font-medium text-xs transition"
+            class="w-full sm:w-auto bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded-xl font-medium text-xs transition text-center"
           >
             Download CSV
           </button>
         </div>
 
         <div class="overflow-x-auto border border-slate-100 rounded-xl">
-          <table class="w-full text-left text-sm">
-            <thead class="bg-slate-50 text-slate-600">
+          <table class="w-full text-left text-xs sm:text-sm">
+            <thead class="bg-amber-50/50 text-slate-600 whitespace-nowrap">
               <tr>
-                <th class="p-4 border-b">No</th>
-                <th class="p-4 border-b">NISN</th>
-                <th class="p-4 border-b">Nama Lengkap</th>
-                <th class="p-4 border-b">L/P</th>
-                <th class="p-4 border-b">Kelas</th>
-                <th class="p-4 border-b">Ekskul</th>
-                <th class="p-4 border-b">WA</th>
-                <th class="p-4 border-b text-center">Aksi</th>
+                <th class="p-3 sm:p-4 border-b">No</th>
+                <th class="p-3 sm:p-4 border-b">NISN</th>
+                <th class="p-3 sm:p-4 border-b">Nama Lengkap</th>
+                <th class="p-3 sm:p-4 border-b">L/P</th>
+                <th class="p-3 sm:p-4 border-b">Kelas</th>
+                <th class="p-3 sm:p-4 border-b">Ekskul</th>
+                <th class="p-3 sm:p-4 border-b">WA</th>
+                <th class="p-3 sm:p-4 border-b text-center">Aksi</th>
               </tr>
             </thead>
             <tbody id="tableAdmin" class="divide-y divide-slate-100"></tbody>
@@ -162,36 +196,38 @@
 
       <div
         id="pageMurid"
-        class="hidden bg-white rounded-2xl p-6 shadow-sm border border-blue-100 space-y-6"
+        class="hidden bg-white rounded-2xl p-4 sm:p-6 shadow-sm border border-amber-200 space-y-4 sm:space-y-6"
       >
-        <div class="flex justify-between items-center">
+        <div
+          class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3"
+        >
           <div>
-            <h2 class="text-lg font-bold text-slate-800">
+            <h2 class="text-base sm:text-lg font-bold text-slate-800">
               Master Data Murid Kelas X
             </h2>
             <p class="text-xs text-slate-400">Kelola database siswa</p>
           </div>
           <button
             onclick="openModalMurid()"
-            class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-xl font-medium text-xs transition"
+            class="w-full sm:w-auto bg-amber-500 hover:bg-amber-600 text-white px-4 py-2 rounded-xl font-medium text-xs transition text-center"
           >
             + Tambah Murid
           </button>
         </div>
 
-        <!-- filter dan autocomplete -->
-        <div class="flex gap-3">
+        <!-- filter dan search -->
+        <div class="flex flex-col sm:flex-row gap-2 sm:gap-3">
           <input
             type="text"
             id="searchMurid"
             oninput="renderTableMurid()"
             placeholder="Cari nama murid..."
-            class="px-4 py-2 border rounded-xl text-xs w-full max-w-xs outline-none focus:border-blue-500"
+            class="px-4 py-2 border rounded-xl text-xs w-full sm:max-w-xs outline-none focus:border-amber-500"
           />
           <select
             id="filterKelasMurid"
             onchange="renderTableMurid()"
-            class="px-4 py-2 border rounded-xl text-xs outline-none focus:border-blue-500"
+            class="px-4 py-2 border rounded-xl text-xs w-full sm:w-auto outline-none focus:border-amber-500"
           >
             <option value="">Semua Kelas</option>
             <option value="X-1">X-1</option>
@@ -202,13 +238,13 @@
         </div>
 
         <div class="overflow-x-auto border border-slate-100 rounded-xl">
-          <table class="w-full text-left text-sm">
-            <thead class="bg-slate-50 text-slate-600">
+          <table class="w-full text-left text-xs sm:text-sm">
+            <thead class="bg-amber-50/50 text-slate-600 whitespace-nowrap">
               <tr>
-                <th class="p-4 border-b">No</th>
-                <th class="p-4 border-b">Nama Lengkap Siswa</th>
-                <th class="p-4 border-b">Kelas</th>
-                <th class="p-4 border-b text-center">Edit / Hapus</th>
+                <th class="p-3 sm:p-4 border-b">No</th>
+                <th class="p-3 sm:p-4 border-b">Nama Lengkap Siswa</th>
+                <th class="p-3 sm:p-4 border-b">Kelas</th>
+                <th class="p-3 sm:p-4 border-b text-center">Edit / Hapus</th>
               </tr>
             </thead>
             <tbody id="tableMurid" class="divide-y divide-slate-100"></tbody>
@@ -219,7 +255,13 @@
 
     <!-- WATERMARK FOOTER -->
     <footer class="mt-8 text-center text-xs text-slate-400">
-      Support WebDev <a href="https://www.instagram.com/fabiann_arshy/" target="_blank" class="font-semibold text-blue-600 hover:underline">@fabiann_arshy</a>
+      Support WebDev
+      <a
+        href="https://www.instagram.com/fabiann_arshy/"
+        target="_blank"
+        class="font-semibold text-blue-600 hover:underline"
+        >@fabiann_arshy</a
+      >
     </footer>
 
     <div
@@ -299,14 +341,14 @@
             <input
               type="text"
               id="modalNama"
-              class="w-full px-3 py-2 border rounded-xl outline-none focus:border-blue-500"
+              class="w-full px-3 py-2 border rounded-xl outline-none focus:border-amber-500"
             />
           </div>
           <div>
             <label class="block font-semibold mb-1">Kelas</label>
             <select
               id="modalKelas"
-              class="w-full px-3 py-2 border rounded-xl outline-none focus:border-blue-500"
+              class="w-full px-3 py-2 border rounded-xl outline-none focus:border-amber-500"
             >
               <option value="X-1">X-1</option>
               <option value="X-2">X-2</option>
@@ -325,7 +367,7 @@
           </button>
           <button
             onclick="saveMurid()"
-            class="w-1/2 bg-blue-600 py-2.5 rounded-xl text-xs font-semibold text-white"
+            class="w-1/2 bg-amber-500 hover:bg-amber-600 py-2.5 rounded-xl text-xs font-semibold text-white"
           >
             Simpan
           </button>
@@ -469,12 +511,10 @@
 
       let timerInterval = null;
 
-      // FEATURE: TOGGLE PASSWORD VISIBILITY
       btnTogglePass.addEventListener("click", () => {
         const isPass = passInput.type === "password";
         passInput.type = isPass ? "text" : "password";
-        
-        // Ganti SVG Icon (Eye vs Eye Off)
+
         if (isPass) {
           eyeIcon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858-5.908a10.018 10.018 0 014.122-.863c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m-4.692-4.692a3 3 0 00-4.243-4.243M3 3l18 18" />`;
         } else {
@@ -486,7 +526,7 @@
         const isLoggedIn = sessionStorage.getItem("admin_logged_in");
         if (isLoggedIn === "true") {
           mainBody.classList.remove("items-center", "justify-center");
-          mainBody.classList.add("py-10");
+          mainBody.classList.add("py-6", "sm:py-10");
           loginPage.classList.add("hidden");
           adminPage.classList.remove("hidden");
           renderTable();
@@ -597,7 +637,7 @@
           localStorage.setItem("temp_block_count", "0");
           localStorage.removeItem("login_lock_until");
           mainBody.classList.remove("items-center", "justify-center");
-          mainBody.classList.add("py-10");
+          mainBody.classList.add("py-6", "sm:py-10");
           loginPage.classList.add("hidden");
           adminPage.classList.remove("hidden");
           renderTable();
@@ -699,16 +739,16 @@
           pageDash.classList.remove("hidden");
           pageMurid.classList.add("hidden");
           tabDash.className =
-            "px-4 py-2 rounded-xl font-semibold text-xs bg-blue-600 text-white transition";
+            "w-full sm:w-auto px-4 py-2 rounded-xl font-semibold text-xs bg-amber-500 text-white transition text-center";
           tabMurid.className =
-            "px-4 py-2 rounded-xl font-semibold text-xs bg-slate-100 text-slate-600 hover:bg-slate-200 transition";
+            "w-full sm:w-auto px-4 py-2 rounded-xl font-semibold text-xs bg-slate-100 text-slate-600 hover:bg-slate-200 transition text-center";
         } else {
           pageDash.classList.add("hidden");
           pageMurid.classList.remove("hidden");
           tabMurid.className =
-            "px-4 py-2 rounded-xl font-semibold text-xs bg-blue-600 text-white transition";
+            "w-full sm:w-auto px-4 py-2 rounded-xl font-semibold text-xs bg-amber-500 text-white transition text-center";
           tabDash.className =
-            "px-4 py-2 rounded-xl font-semibold text-xs bg-slate-100 text-slate-600 hover:bg-slate-200 transition";
+            "w-full sm:w-auto px-4 py-2 rounded-xl font-semibold text-xs bg-slate-100 text-slate-600 hover:bg-slate-200 transition text-center";
         }
       };
 
@@ -724,15 +764,15 @@
         db.forEach((item, index) => {
           tbody.innerHTML += `
           <tr class="hover:bg-slate-50">
-            <td class="p-4 font-semibold text-slate-400">${index + 1}</td>
-            <td class="p-4">${item.nisn}</td>
-            <td class="p-4 font-semibold">${item.nama}</td>
-            <td class="p-4">${item.gender === "Laki-laki" ? "L" : item.gender === "Perempuan" ? "P" : "-"}</td>
-            <td class="p-4"><span class="bg-blue-100 text-blue-700 px-2 py-1 rounded text-xs font-bold">${item.kelas}</span></td>
-            <td class="p-4">${item.ekskul}</td>
-            <td class="p-4">${item.wa}</td>
-            <td class="p-4 text-center">
-              <button onclick="hapusData(${item.id})" class="text-red-500 hover:text-red-700 font-semibold text-sm">Hapus</button>
+            <td class="p-3 sm:p-4 font-semibold text-slate-400 whitespace-nowrap">${index + 1}</td>
+            <td class="p-3 sm:p-4 whitespace-nowrap">${item.nisn}</td>
+            <td class="p-3 sm:p-4 font-semibold whitespace-nowrap">${item.nama}</td>
+            <td class="p-3 sm:p-4 whitespace-nowrap">${item.gender === "Laki-laki" ? "L" : item.gender === "Perempuan" ? "P" : "-"}</td>
+            <td class="p-3 sm:p-4 whitespace-nowrap"><span class="bg-amber-100 text-amber-800 px-2 py-1 rounded text-xs font-bold">${item.kelas}</span></td>
+            <td class="p-3 sm:p-4 whitespace-nowrap">${item.ekskul}</td>
+            <td class="p-3 sm:p-4 whitespace-nowrap">${item.wa}</td>
+            <td class="p-3 sm:p-4 text-center whitespace-nowrap">
+              <button onclick="hapusData(${item.id})" class="text-rose-600 hover:text-rose-800 font-semibold text-xs bg-rose-50 px-3 py-1.5 rounded-lg border border-rose-200 transition">Hapus</button>
             </td>
           </tr>
         `;
@@ -779,12 +819,12 @@
           );
           tbody.innerHTML += `
           <tr class="hover:bg-slate-50">
-            <td class="p-4 font-semibold text-slate-400">${index + 1}</td>
-            <td class="p-4 font-semibold text-slate-800">${item.nama}</td>
-            <td class="p-4"><span class="bg-blue-50 text-blue-700 border border-blue-200 px-2 py-1 rounded text-xs font-bold">${item.kelas}</span></td>
-            <td class="p-4 text-center space-x-2">
-              <button onclick="editMurid(${originalIndex})" class="text-blue-600 hover:underline font-semibold text-xs">Edit</button>
-              <button onclick="deleteMurid(${originalIndex})" class="text-red-500 hover:underline font-semibold text-xs">Hapus</button>
+            <td class="p-3 sm:p-4 font-semibold text-slate-400 whitespace-nowrap">${index + 1}</td>
+            <td class="p-3 sm:p-4 font-semibold text-slate-800 whitespace-nowrap">${item.nama}</td>
+            <td class="p-3 sm:p-4 whitespace-nowrap"><span class="bg-amber-50 text-amber-800 border border-amber-200 px-2 py-1 rounded text-xs font-bold">${item.kelas}</span></td>
+            <td class="p-3 sm:p-4 text-center space-x-2 whitespace-nowrap">
+              <button onclick="editMurid(${originalIndex})" class="text-emerald-700 hover:text-emerald-900 bg-emerald-50 border border-emerald-200 px-3 py-1.5 rounded-lg font-semibold text-xs transition">Edit</button>
+              <button onclick="deleteMurid(${originalIndex})" class="text-rose-600 hover:text-rose-800 bg-rose-50 border border-rose-200 px-3 py-1.5 rounded-lg font-semibold text-xs transition">Hapus</button>
             </td>
           </tr>
         `;
