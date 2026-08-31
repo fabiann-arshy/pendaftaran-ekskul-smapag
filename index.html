@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Pendaftaran Ekskul Class X - SMAS Plus Al Ghifari</title>
+    <title>Pendaftaran Ekskul Kelas X - SMA Plus Al Ghifari</title>
 
     <link
       rel="icon"
@@ -12,6 +12,7 @@
     />
 
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link
       href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
@@ -39,7 +40,7 @@
         <h1
           class="text-xl sm:text-2xl font-extrabold text-amber-950 uppercase tracking-tight leading-snug text-center"
         >
-          PENDAFTARAN EKSKUR KELAS X, 2026–2027 SMAS PLUS AL GHIFARI BANDUNG
+          PENDAFTARAN EKSKUL KELAS X, 2026–2027  PLUS AL GHIFARI BANDUNG
         </h1>
         <p class="text-sm text-slate-500 text-center mt-2">
           Silakan isi formulir pendaftaran kegiatan ekstrakurikuler di bawah ini
@@ -156,7 +157,6 @@
           </button>
         </form>
 
-        <!-- ke page daftar -->
         <div class="mt-6 pt-4 border-t border-slate-100 text-center">
           <p id="toggleMsg" class="text-xs text-slate-500">
             Tidak terdaftar?,
@@ -172,7 +172,6 @@
       </div>
     </div>
 
-    <!-- WATERMARK FOOTER -->
     <footer class="mt-8 text-center text-xs text-slate-400">
       Support WebDev
       <a
@@ -224,9 +223,7 @@
         <div
           id="confirmDataSummary"
           class="bg-amber-50/60 p-3.5 rounded-xl text-xs space-y-1.5 text-slate-700 border border-amber-100"
-        >
-          <!-- summary -->
-        </div>
+        ></div>
 
         <div class="flex gap-3 pt-2">
           <button
@@ -246,6 +243,14 @@
     </div>
 
     <script>
+      const SUPABASE_URL = "https://rpopkubtvqsepdyqptxn.supabase.co";
+      const SUPABASE_ANON_KEY =
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJwb3BrdWJ0dnFzZXBkeXFwdHhuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgxODIwNTgsImV4cCI6MjEwMzc1ODA1OH0.iyyewyWjR4egX0P_1QPvfLJJMivd2zbOJpGCQxLBFGI";
+      const supabaseClient = supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_ANON_KEY,
+      );
+
       const databaseSiswa = [
         { nama: "Adela Nur Setia Putri Andriansyah", kelas: "X-1" },
         { nama: "Afifa Fitiya Riyana", kelas: "X-1" },
@@ -473,10 +478,7 @@
           return;
         }
 
-        const currentDB = JSON.parse(
-          localStorage.getItem("master_siswa") || JSON.stringify(databaseSiswa),
-        );
-        const matches = currentDB.filter((s) =>
+        const matches = databaseSiswa.filter((s) =>
           s.nama.toLowerCase().includes(val.toLowerCase()),
         );
         if (matches.length === 0) {
@@ -556,80 +558,96 @@
 
       let pendingSubmitData = null;
 
-      document.getElementById("btnSubmit").addEventListener("click", () => {
-        let valid = true;
+      document
+        .getElementById("btnSubmit")
+        .addEventListener("click", async () => {
+          let valid = true;
 
-        if (!modeTerdaftar) {
-          if (!inputNisn.value || inputNisn.value.length !== 10) {
+          if (!modeTerdaftar) {
+            if (!inputNisn.value || inputNisn.value.length !== 10) {
+              showCustomAlert(
+                "NISN wajib diisi dan harus tepat 10 digit angka!",
+                "error",
+                "NISN Tidak Valid",
+              );
+              inputNisn.classList.add("border-red-500");
+              valid = false;
+              return;
+            } else {
+              inputNisn.classList.remove("border-red-500");
+            }
+
+            if (!inputGender.value) {
+              inputGender.classList.add("border-red-500");
+              valid = false;
+            } else {
+              inputGender.classList.remove("border-red-500");
+            }
+          }
+
+          if (!inputNama.value.trim()) {
+            inputNama.classList.add("border-red-500");
+            valid = false;
+          } else {
+            inputNama.classList.remove("border-red-500");
+          }
+
+          if (!inputKelas.value) {
+            inputKelas.classList.add("border-red-500");
+            valid = false;
+          } else {
+            inputKelas.classList.remove("border-red-500");
+          }
+
+          if (!inputWa.value.trim()) {
+            inputWa.classList.add("border-red-500");
+            valid = false;
+          } else {
+            inputWa.classList.remove("border-red-500");
+          }
+
+          if (!valid) {
             showCustomAlert(
-              "NISN wajib diisi dan harus tepat 10 digit angka!",
+              "Harap lengkapi semua isian wajib yang bergaris merah!",
               "error",
-              "NISN Tidak Valid",
+              "Data Belum Lengkap",
             );
-            inputNisn.classList.add("border-red-500");
-            valid = false;
             return;
-          } else {
-            inputNisn.classList.remove("border-red-500");
           }
 
-          if (!inputGender.value) {
-            inputGender.classList.add("border-red-500");
-            valid = false;
-          } else {
-            inputGender.classList.remove("border-red-500");
+          // CEK NAMA DARI DATABASE SUPABASE UNTUK CEK DUPLIKASI
+          const { data: existingSiswa } = await supabaseClient
+            .from("pendaftar-ekskul-smapag")
+            .select("nama")
+            .ilike("nama", inputNama.value.trim());
+
+          if (existingSiswa && existingSiswa.length > 0) {
+            showCustomAlert(
+              `Nama <strong>${inputNama.value.trim()}</strong> sudah terdaftar dalam sistem pendaftaran!<br><br>Setiap siswa hanya dapat mengisi formulir 1 kali.`,
+              "error",
+              "Sudah Terdaftar",
+            );
+            return;
           }
-        }
 
-        if (!inputNama.value.trim()) {
-          inputNama.classList.add("border-red-500");
-          valid = false;
-        } else {
-          inputNama.classList.remove("border-red-500");
-        }
+          let ekskuls = ["Pramuka"];
+          document.querySelectorAll(".ekskul-slot").forEach((slot) => {
+            const sel = slot.querySelector(".ekskul-select").value;
+            const cus = slot.querySelector(".ekskul-custom").value;
+            if (sel === "Lainnya" && cus) ekskuls.push(cus);
+            else if (sel && sel !== "Lainnya") ekskuls.push(sel);
+          });
 
-        if (!inputKelas.value) {
-          inputKelas.classList.add("border-red-500");
-          valid = false;
-        } else {
-          inputKelas.classList.remove("border-red-500");
-        }
+          pendingSubmitData = {
+            nisn: modeTerdaftar ? "-" : inputNisn.value,
+            nama: inputNama.value,
+            gender: modeTerdaftar ? "-" : inputGender.value,
+            kelas: inputKelas.value,
+            wa: inputWa.value,
+            ekskul: ekskuls.join(", "),
+          };
 
-        if (!inputWa.value.trim()) {
-          inputWa.classList.add("border-red-500");
-          valid = false;
-        } else {
-          inputWa.classList.remove("border-red-500");
-        }
-
-        if (!valid) {
-          showCustomAlert(
-            "Harap lengkapi semua isian wajib yang bergaris merah!",
-            "error",
-            "Data Belum Lengkap",
-          );
-          return;
-        }
-
-        let ekskuls = ["Pramuka"];
-        document.querySelectorAll(".ekskul-slot").forEach((slot) => {
-          const sel = slot.querySelector(".ekskul-select").value;
-          const cus = slot.querySelector(".ekskul-custom").value;
-          if (sel === "Lainnya" && cus) ekskuls.push(cus);
-          else if (sel && sel !== "Lainnya") ekskuls.push(sel);
-        });
-
-        pendingSubmitData = {
-          id: Date.now(),
-          nisn: modeTerdaftar ? "-" : inputNisn.value,
-          nama: inputNama.value,
-          gender: modeTerdaftar ? "-" : inputGender.value,
-          kelas: inputKelas.value,
-          wa: inputWa.value,
-          ekskul: ekskuls.join(", "),
-        };
-
-        document.getElementById("confirmDataSummary").innerHTML = `
+          document.getElementById("confirmDataSummary").innerHTML = `
         <p><strong>Nama:</strong> ${pendingSubmitData.nama}</p>
         ${!modeTerdaftar ? `<p><strong>NISN:</strong> ${pendingSubmitData.nisn}</p>` : ""}
         ${!modeTerdaftar ? `<p><strong>Jenis Kelamin:</strong> ${pendingSubmitData.gender}</p>` : ""}
@@ -638,10 +656,10 @@
         <p><strong>Ekskul:</strong> ${pendingSubmitData.ekskul}</p>
       `;
 
-        const confirmModal = document.getElementById("customModalConfirm");
-        confirmModal.classList.remove("hidden");
-        confirmModal.classList.add("flex");
-      });
+          const confirmModal = document.getElementById("customModalConfirm");
+          confirmModal.classList.remove("hidden");
+          confirmModal.classList.add("flex");
+        });
 
       document
         .getElementById("btnConfirmCancel")
@@ -652,46 +670,39 @@
             .classList.remove("flex");
         });
 
-      document.getElementById("btnConfirmOk").addEventListener("click", async () => {
-        document.getElementById("customModalConfirm").classList.add("hidden");
-        document.getElementById("customModalConfirm").classList.remove("flex");
+      document
+        .getElementById("btnConfirmOk")
+        .addEventListener("click", async () => {
+          document.getElementById("customModalConfirm").classList.add("hidden");
+          document
+            .getElementById("customModalConfirm")
+            .classList.remove("flex");
 
-        if (pendingSubmitData) {
-          try {
-            await fetch("https://api.web3forms.com/submit", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-                Accept: "application/json",
-              },
-              body: JSON.stringify({
-                access_key: "ddd68055-2e66-456a-a347-6c2559a8a93e",
-                nama: pendingSubmitData.nama,
-                nisn: pendingSubmitData.nisn,
-                kelas: pendingSubmitData.kelas,
-                gender: pendingSubmitData.gender,
-                wa: pendingSubmitData.wa,
-                ekskul: pendingSubmitData.ekskul,
-              }),
-            });
+          if (pendingSubmitData) {
+            try {
+              const { error } = await supabaseClient
+                .from("pendaftar-ekskul-smapag")
+                .insert([pendingSubmitData]);
 
-            showCustomAlert(
-              "Pendaftaran berhasil tersimpan!",
-              "success",
-              "Berhasil",
-            );
-            document.getElementById("ekskulForm").reset();
-            inputKelas.setAttribute("required", "true");
-            pendingSubmitData = null;
-          } catch (err) {
-            showCustomAlert(
-              "Gagal menyimpan data, silakan coba lagi!",
-              "error",
-              "Gagal",
-            );
+              if (error) throw error;
+
+              showCustomAlert(
+                "Pendaftaran berhasil tersimpan!",
+                "success",
+                "Berhasil",
+              );
+              document.getElementById("ekskulForm").reset();
+              inputKelas.setAttribute("required", "true");
+              pendingSubmitData = null;
+            } catch (err) {
+              showCustomAlert(
+                "Gagal menyimpan data ke database cloud!",
+                "error",
+                "Gagal",
+              );
+            }
           }
-        }
-      });
+        });
     </script>
   </body>
 </html>
