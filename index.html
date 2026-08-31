@@ -611,23 +611,6 @@
           return;
         }
 
-        // FITUR BARU: CEK NAMA SUDAH TERDAFTAR ATAU BELUM
-        let existingDB = JSON.parse(localStorage.getItem("db_ekskul") || "[]");
-        const isAlreadyRegistered = existingDB.some(
-          (item) =>
-            item.nama.trim().toLowerCase() ===
-            inputNama.value.trim().toLowerCase(),
-        );
-
-        if (isAlreadyRegistered) {
-          showCustomAlert(
-            `Nama <strong>${inputNama.value.trim()}</strong> sudah terdaftar dalam sistem pendaftaran!<br><br>Setiap siswa hanya dapat mengisi formulir 1 kali.`,
-            "error",
-            "Sudah Terdaftar",
-          );
-          return;
-        }
-
         let ekskuls = ["Pramuka"];
         document.querySelectorAll(".ekskul-slot").forEach((slot) => {
           const sel = slot.querySelector(".ekskul-select").value;
@@ -669,23 +652,44 @@
             .classList.remove("flex");
         });
 
-      document.getElementById("btnConfirmOk").addEventListener("click", () => {
+      document.getElementById("btnConfirmOk").addEventListener("click", async () => {
         document.getElementById("customModalConfirm").classList.add("hidden");
         document.getElementById("customModalConfirm").classList.remove("flex");
 
         if (pendingSubmitData) {
-          let db = JSON.parse(localStorage.getItem("db_ekskul") || "[]");
-          db.push(pendingSubmitData);
-          localStorage.setItem("db_ekskul", JSON.stringify(db));
+          try {
+            await fetch("https://api.web3forms.com/submit", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+              },
+              body: JSON.stringify({
+                access_key: "ddd68055-2e66-456a-a347-6c2559a8a93e",
+                nama: pendingSubmitData.nama,
+                nisn: pendingSubmitData.nisn,
+                kelas: pendingSubmitData.kelas,
+                gender: pendingSubmitData.gender,
+                wa: pendingSubmitData.wa,
+                ekskul: pendingSubmitData.ekskul,
+              }),
+            });
 
-          showCustomAlert(
-            "Pendaftaran berhasil tersimpan!",
-            "success",
-            "Berhasil",
-          );
-          document.getElementById("ekskulForm").reset();
-          inputKelas.setAttribute("required", "true");
-          pendingSubmitData = null;
+            showCustomAlert(
+              "Pendaftaran berhasil tersimpan!",
+              "success",
+              "Berhasil",
+            );
+            document.getElementById("ekskulForm").reset();
+            inputKelas.setAttribute("required", "true");
+            pendingSubmitData = null;
+          } catch (err) {
+            showCustomAlert(
+              "Gagal menyimpan data, silakan coba lagi!",
+              "error",
+              "Gagal",
+            );
+          }
         }
       });
     </script>
