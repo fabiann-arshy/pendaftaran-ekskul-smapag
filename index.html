@@ -417,6 +417,28 @@
         modal.classList.remove("flex");
       }
 
+      // FUNGSI CEK DUPLIKASI NAMA INSTANT KE SUPABASE
+      async function cekDuplikasiNamaInstant(namaInput) {
+        if (!namaInput.trim()) return false;
+
+        const { data: existingSiswa } = await supabaseClient
+          .from("pendaftar-ekskul-smapag")
+          .select("nama")
+          .ilike("nama", namaInput.trim());
+
+        if (existingSiswa && existingSiswa.length > 0) {
+          showCustomAlert(
+            `Nama <strong>${namaInput.trim()}</strong> sudah terdaftar dalam sistem pendaftaran!<br><br>Setiap siswa hanya dapat mengisi formulir 1 kali.`,
+            "error",
+            "sudah terdaftar",
+          );
+          inputNama.value = "";
+          inputKelas.value = "";
+          return true;
+        }
+        return false;
+      }
+
       const container = document.getElementById("ekskulContainer");
       for (let i = 2; i <= 5; i++) {
         let slotHTML = `
@@ -487,15 +509,25 @@
           div.className =
             "px-4 py-2 hover:bg-amber-50 cursor-pointer text-xs border-b border-slate-50 last:border-none";
           div.textContent = `${s.nama} (${s.kelas})`;
-          div.addEventListener("click", () => {
+          div.addEventListener("click", async () => {
             inputNama.value = s.nama;
             inputKelas.value = s.kelas;
             inputKelas.removeAttribute("required");
             autocompleteList.classList.add("hidden");
+
+            // CEK INSTANT SETELAH NAMA DIKLIK DARI AUTOCOMPLETE
+            await cekDuplikasiNamaInstant(s.nama);
           });
           autocompleteList.appendChild(div);
         });
         autocompleteList.classList.remove("hidden");
+      });
+
+      // CEK INSTANT PAS PINDAH KETIKAN/SELESAI KETIK
+      inputNama.addEventListener("change", async (e) => {
+        if (e.target.value.trim()) {
+          await cekDuplikasiNamaInstant(e.target.value);
+        }
       });
 
       document.addEventListener("click", (e) => {
@@ -611,19 +643,9 @@
             return;
           }
 
-          const { data: existingSiswa } = await supabaseClient
-            .from("pendaftar-ekskul-smapag")
-            .select("nama")
-            .ilike("nama", inputNama.value.trim());
-
-          if (existingSiswa && existingSiswa.length > 0) {
-            showCustomAlert(
-              `Nama <strong>${inputNama.value.trim()}</strong> sudah terdaftar dalam sistem pendaftaran!<br><br>Setiap siswa hanya dapat mengisi formulir 1 kali.`,
-              "error",
-              "sudah terdaftar",
-            );
-            return;
-          }
+          // CEK INSTANT ULANG SEBELUM KONFIRMASI MUNCUL
+          const isDuplikat = await cekDuplikasiNamaInstant(inputNama.value);
+          if (isDuplikat) return;
 
           let ekskuls = ["Pramuka"];
           document.querySelectorAll(".ekskul-slot").forEach((slot) => {
