@@ -110,40 +110,81 @@
         </div>
       </div>
 
-      <div id="pageDashboard" class="bg-white rounded-2xl p-4 sm:p-6 shadow-sm border border-amber-200 space-y-4">
-        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
-          <div>
-            <h2 class="text-base sm:text-lg font-bold text-slate-800">Data Pendaftar Ekskul</h2>
-            <p class="text-xs text-slate-400">Daftar Siswa Yang Sudah Mengisi Formulir</p>
+      <div id="pageDashboard" class="space-y-4">
+        <!-- RINGKASAN STATISTIK & PERSENTASE BULAT -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-amber-200 flex flex-col justify-between">
+            <div>
+              <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Total Pendaftar</p>
+              <h3 id="statTotal" class="text-2xl sm:text-3xl font-extrabold text-amber-600 mt-1">0 Siswa</h3>
+            </div>
+            <p id="statAngkatanPct" class="text-xs text-slate-500 mt-2 font-medium">0% dari total angkatan (113 siswa)</p>
           </div>
-          <button
-            onclick="exportCSV()"
-            class="w-full sm:w-auto bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded-xl font-medium text-xs transition text-center"
-          >
-            Download CSV
-          </button>
+
+          <div class="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-amber-200 md:col-span-2 space-y-2">
+            <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Persentase Pengisian per Kelas</p>
+            <div id="statKelasContainer" class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-1">
+              <!-- Render otomatis via JS -->
+            </div>
+          </div>
         </div>
 
-        <div class="overflow-x-auto border border-slate-100 rounded-xl">
-          <table class="w-full text-left text-xs sm:text-sm">
-            <thead class="bg-amber-50/50 text-slate-600 whitespace-nowrap">
-              <tr>
-                <th class="p-3 sm:p-4 border-b">No</th>
-                <th class="p-3 sm:p-4 border-b">NISN</th>
-                <th class="p-3 sm:p-4 border-b">Nama Lengkap</th>
-                <th class="p-3 sm:p-4 border-b">L/P</th>
-                <th class="p-3 sm:p-4 border-b">Kelas</th>
-                <th class="p-3 sm:p-4 border-b">Ekskul</th>
-                <th class="p-3 sm:p-4 border-b">WA</th>
-                <th class="p-3 sm:p-4 border-b text-center">Aksi</th>
-              </tr>
-            </thead>
-            <tbody id="tableAdmin" class="divide-y divide-slate-100">
-              <tr>
-                <td colspan="8" class="text-center p-6 text-slate-400">Memuat data dari cloud...</td>
-              </tr>
-            </tbody>
-          </table>
+        <!-- TABEL KELOLA & FILTER DATA -->
+        <div class="bg-white rounded-2xl p-4 sm:p-6 shadow-sm border border-amber-200 space-y-4">
+          <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+            <div>
+              <h2 class="text-base sm:text-lg font-bold text-slate-800">Data Pendaftar Ekskul</h2>
+              <p class="text-xs text-slate-400">Daftar Siswa Yang Sudah Mengisi Formulir</p>
+            </div>
+            <button
+              onclick="exportCSV()"
+              class="w-full sm:w-auto bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded-xl font-medium text-xs transition text-center"
+            >
+              Download CSV
+            </button>
+          </div>
+
+          <!-- INPUT CARI DAN URUTKAN -->
+          <div class="flex flex-col sm:flex-row gap-2 sm:gap-3">
+            <input
+              type="text"
+              id="searchPendaftar"
+              oninput="filterAndRenderTable()"
+              placeholder="Cari nama pendaftar / ekskul..."
+              class="px-4 py-2 border rounded-xl text-xs w-full sm:max-w-xs outline-none focus:border-amber-500"
+            />
+            <select
+              id="sortPendaftar"
+              onchange="filterAndRenderTable()"
+              class="px-4 py-2 border rounded-xl text-xs w-full sm:w-auto outline-none focus:border-amber-500"
+            >
+              <option value="terbaru">Urutkan: Terbaru</option>
+              <option value="nama">Urutkan: Nama (A-Z)</option>
+              <option value="kelas">Urutkan: Kelas</option>
+            </select>
+          </div>
+
+          <div class="overflow-x-auto border border-slate-100 rounded-xl">
+            <table class="w-full text-left text-xs sm:text-sm">
+              <thead class="bg-amber-50/50 text-slate-600 whitespace-nowrap">
+                <tr>
+                  <th class="p-3 sm:p-4 border-b">No</th>
+                  <th class="p-3 sm:p-4 border-b">NISN</th>
+                  <th class="p-3 sm:p-4 border-b">Nama Lengkap</th>
+                  <th class="p-3 sm:p-4 border-b">L/P</th>
+                  <th class="p-3 sm:p-4 border-b">Kelas</th>
+                  <th class="p-3 sm:p-4 border-b">Ekskul</th>
+                  <th class="p-3 sm:p-4 border-b">WA</th>
+                  <th class="p-3 sm:p-4 border-b text-center">Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="tableAdmin" class="divide-y divide-slate-100">
+                <tr>
+                  <td colspan="8" class="text-center p-6 text-slate-400">Memuat data dari cloud...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
 
@@ -207,27 +248,6 @@
         >@fabiann_arshy</a
       >
     </footer>
-
-    <div id="customModalAlertAdmin" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
-      <div class="bg-white rounded-2xl max-w-sm w-full p-6 shadow-xl text-center space-y-4">
-        <div id="adminAlertIcon" class="w-12 h-12 rounded-full flex items-center justify-center mx-auto font-bold text-lg"></div>
-        <h3 id="adminAlertTitle" class="text-base font-bold text-slate-800">Pemberitahuan</h3>
-        <p id="adminAlertMsg" class="text-xs text-slate-500 leading-relaxed"></p>
-        <button onclick="closeAdminAlert()" class="w-full bg-slate-800 hover:bg-slate-900 text-white font-medium py-2.5 rounded-xl text-xs transition">Mengerti</button>
-      </div>
-    </div>
-
-    <div id="customModalConfirmAdmin" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
-      <div class="bg-white rounded-2xl max-w-sm w-full p-6 shadow-xl text-center space-y-4">
-        <div class="w-12 h-12 bg-red-100 text-red-600 rounded-full flex items-center justify-center mx-auto font-bold text-lg">!</div>
-        <h3 class="text-base font-bold text-slate-800">Konfirmasi Hapus</h3>
-        <p id="adminConfirmMsg" class="text-xs text-slate-500 leading-relaxed">Apakah Anda yakin ingin menghapus data ini?</p>
-        <div class="flex gap-2 pt-2">
-          <button id="btnAdminConfirmCancel" class="w-1/2 bg-slate-100 hover:bg-slate-200 text-slate-700 py-2.5 rounded-xl text-xs font-semibold transition">Batal</button>
-          <button id="btnAdminConfirmOk" class="w-1/2 bg-red-600 hover:bg-red-700 text-white py-2.5 rounded-xl text-xs font-semibold transition">Hapus</button>
-        </div>
-      </div>
-    </div>
 
     <div id="modalMurid" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
       <div class="bg-white rounded-2xl max-w-sm w-full p-6 shadow-xl space-y-4">
@@ -386,8 +406,6 @@
       const loginPage = document.getElementById("loginPage");
       const adminPage = document.getElementById("adminPage");
       const alertBox = document.getElementById("alertBox");
-      const btnLogin = document.getElementById("btnLogin");
-      const loginForm = document.getElementById("loginForm");
       const mainBody = document.getElementById("mainBody");
       const passInput = document.getElementById("pass");
       const btnTogglePass = document.getElementById("btnTogglePass");
@@ -408,7 +426,7 @@
           mainBody.classList.add("py-6", "sm:py-10");
           loginPage.classList.add("hidden");
           adminPage.classList.remove("hidden");
-          renderTable();
+          fetchDataAndRender();
           renderTableMurid();
           aktifkanRealtimeListener();
         }
@@ -424,7 +442,7 @@
           mainBody.classList.add("py-6", "sm:py-10");
           loginPage.classList.add("hidden");
           adminPage.classList.remove("hidden");
-          renderTable();
+          fetchDataAndRender();
           renderTableMurid();
           aktifkanRealtimeListener();
         } else {
@@ -458,24 +476,81 @@
         }
       };
 
-      async function renderTable() {
-        const tbody = document.getElementById("tableAdmin");
-
+      async function fetchDataAndRender() {
         const { data, error } = await supabaseClient
           .from("pendaftar-ekskul-smapag")
           .select("*")
           .order("id", { ascending: false });
 
-        if (error || !data || data.length === 0) {
-          tbody.innerHTML = '<tr><td colspan="8" class="text-center p-6 text-slate-400">Belum ada data pendaftar tersimpan.</td></tr>';
+        if (error || !data) {
           dataPendaftarGlobal = [];
+        } else {
+          dataPendaftarGlobal = data;
+        }
+
+        renderStatistik();
+        filterAndRenderTable();
+      }
+
+      function renderStatistik() {
+        const listMaster = JSON.parse(localStorage.getItem("master_siswa") || "[]");
+        const totalAngkatan = listMaster.length > 0 ? listMaster.length : 113;
+        const totalPendaftar = dataPendaftarGlobal.length;
+
+        document.getElementById("statTotal").textContent = `${totalPendaftar} Siswa`;
+        const pctAngkatan = Math.round((totalPendaftar / totalAngkatan) * 100) || 0;
+        document.getElementById("statAngkatanPct").textContent = `${pctAngkatan}% dari total angkatan (${totalAngkatan} siswa)`;
+
+        const daftarKelas = ["X-1", "X-2", "X-3", "X-4"];
+        const container = document.getElementById("statKelasContainer");
+        container.innerHTML = "";
+
+        daftarKelas.forEach((k) => {
+          const totalMasterKelas = listMaster.filter((s) => s.kelas === k).length || 28;
+          const pendaftarKelas = dataPendaftarGlobal.filter((s) => s.kelas === k).length;
+          const pctKelas = Math.round((pendaftarKelas / totalMasterKelas) * 100) || 0;
+
+          container.innerHTML += `
+            <div class="bg-amber-50/50 p-2.5 rounded-xl border border-amber-100 flex flex-col justify-between space-y-1">
+              <div class="flex justify-between items-center text-xs font-bold text-slate-700">
+                <span>${k}</span>
+                <span class="text-amber-600 font-extrabold">${pctKelas}%</span>
+              </div>
+              <p class="text-[10px] text-slate-400">${pendaftarKelas}/${totalMasterKelas} murid</p>
+              <div class="w-full bg-slate-200 h-1.5 rounded-full overflow-hidden mt-1">
+                <div class="bg-amber-500 h-full rounded-full" style="width: ${pctKelas}%"></div>
+              </div>
+            </div>
+          `;
+        });
+      }
+
+      function filterAndRenderTable() {
+        const tbody = document.getElementById("tableAdmin");
+        const q = document.getElementById("searchPendaftar").value.toLowerCase().trim();
+        const sortBy = document.getElementById("sortPendaftar").value;
+
+        let filtered = dataPendaftarGlobal.filter((item) => {
+          const matchNama = item.nama ? item.nama.toLowerCase().includes(q) : false;
+          const matchEkskul = item.ekskul ? item.ekskul.toLowerCase().includes(q) : false;
+          return matchNama || matchEkskul;
+        });
+
+        if (sortBy === "nama") {
+          filtered.sort((a, b) => a.nama.localeCompare(b.nama));
+        } else if (sortBy === "kelas") {
+          filtered.sort((a, b) => a.kelas.localeCompare(b.kelas));
+        } else if (sortBy === "terbaru") {
+          filtered.sort((a, b) => b.id - a.id);
+        }
+
+        if (filtered.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="8" class="text-center p-6 text-slate-400">Data pendaftar tidak ditemukan.</td></tr>';
           return;
         }
 
-        dataPendaftarGlobal = data;
         tbody.innerHTML = "";
-
-        data.forEach((item, index) => {
+        filtered.forEach((item, index) => {
           tbody.innerHTML += `
             <tr class="hover:bg-slate-50">
               <td class="p-3 sm:p-4 font-semibold text-slate-400 whitespace-nowrap">${index + 1}</td>
@@ -500,7 +575,7 @@
             "postgres_changes",
             { event: "*", schema: "public", table: "pendaftar-ekskul-smapag" },
             () => {
-              renderTable();
+              fetchDataAndRender();
             }
           )
           .subscribe();
@@ -514,7 +589,7 @@
             .eq("id", id);
 
           if (error) alert("Gagal menghapus data dari database cloud!");
-          else renderTable();
+          else fetchDataAndRender();
         }
       };
 
@@ -594,6 +669,7 @@
         localStorage.setItem("master_siswa", JSON.stringify(listMurid));
         closeModalMurid();
         renderTableMurid();
+        renderStatistik();
       };
 
       window.deleteMurid = function (index) {
@@ -602,6 +678,7 @@
           listMurid.splice(index, 1);
           localStorage.setItem("master_siswa", JSON.stringify(listMurid));
           renderTableMurid();
+          renderStatistik();
         }
       };
 
